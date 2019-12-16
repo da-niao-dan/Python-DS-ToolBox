@@ -14,5 +14,10 @@ time_format = '%Y-%m-%d %H:%M:%S'
 example1_datetime_list = list(map(lambda x:datetime.strptime(x,time_format),example1))
 
 ## We can check out date using ctimp method
-## let's check out the first date in our list
+## Let's check out the first date in our list
 example1_datetime_list[0].ctime()
+
+## Sometimes we only concern about date.
+## The classic format called 'iso format' for date is 'YYYY-MM-DD'
+## Let's check out the first date in our list in iso format:
+example1_datetime_list[0].date().isoformat()
