@@ -14,5 +14,5 @@ header = {"Accept-Encoding":"gzip"} # Consult your api documents and requests pa
 param_dict = {your_parameters}# Consult your api documents and requests package website here.
 
 with requests.Session() as s: 
-    download = s.post(url, data=param_dict) ## consult post, get, and other http requests.
+    download = s.post(url, data=param_dict,headers=header) ## consult post, get, and other http requests.
 ```    
