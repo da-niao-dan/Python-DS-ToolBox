@@ -1,4 +1,4 @@
-# Get data from web
+# Get data from APIs
 Before we begin, have some basic knowledge on how the internet works and what is http, and what is API.
 Getting data from web API usually require reading API manuals for specific APIs.
 I recommend using package requests for this task in Python.
