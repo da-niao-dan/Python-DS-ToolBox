@@ -9,7 +9,7 @@ There are many great sources to learn Data Science, here are some advice to dive
 2. Practice as you go. Search Google or Bing any questions. Stackoverflow is often there to help. During this process, do not lose sight of the big picture of data science
 3. Become a better data scientiest by doing more projects!
 
-`
+```
 Current Knowledge Map:
 .
 ├── Core_Techniques
@@ -31,5 +31,5 @@ Current Knowledge Map:
 │       ├── Data_Visualization
 │       └── Simple_Statistical_Tools
 └── Standard_Problems
-`
+```
 
