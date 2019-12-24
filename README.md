@@ -1,7 +1,7 @@
 # Python-DS-ToolBox
 Python Data Science Toolbox
 
-This is my personal open notebook for Data Science in Python.
+This is my personal open notebook for Data Science in Python. I will put all explanations and codes embedded in mark down files (ending with .md), click on the files to view the contents.
 I learnt the those tools from many sources, welcome to browse and edit  this notebook.
 There are many great sources to learn Data Science, and here are some advice to dive into this field quickly:
 
