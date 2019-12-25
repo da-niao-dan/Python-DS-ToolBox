@@ -22,14 +22,14 @@ There are many great sources to learn Data Science, and here are some advice to 
 0. [Environment Configuration](#Environment-Configuration)
 1. [Data Processing](#Data-Processing)
     0. Getting Data
-        0. Loading Files
-        1. From APIs
-        2. From SQL database
+        * By Loading Files
+        * From APIs
+        * From SQL database
     1. [Organizing Data](#Organizing-Data)
-        0. Data Cleaning
-            0. Processing Datetimes
-            1. Processing Lists
-        1. Transform DataFrames
+        * Data Cleaning
+            * Processing Datetimes
+            * Processing Lists
+        * Transform DataFrames
 2. Exploring Data
     0. Simple Data Visualization
     1. Simple Statistical Tools
