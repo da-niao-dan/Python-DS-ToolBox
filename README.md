@@ -22,43 +22,45 @@ There are many great sources to learn Data Science, and here are some advice to 
 0. [Environment Configuration](#Environment-Configuration)
 1. [Data Processing](#Data-Processing)
 
-    0. Getting Data
+    * Getting Data
 
-        0. By Loading Files
-        1. From APIs
-        2. From SQL database
-    1. [Organizing Data](#Organizing-Data)
+        * By Loading Files
+        * From APIs
+        * From SQL database
+    * [Organizing Data](#Organizing-Data)
         
-        0. Data Cleaning
-            0. Processing Datetimes
-            1. Processing Lists
-        1. Transform DataFrames
+        * Data Cleaning
+            * Processing Datetimes
+            * Processing Lists
+        * Transform DataFrames
 
 2. Exploring Data
 
-    0. Simple Data Visualization
-    1. Simple Statistical Tools
+    * Simple Data Visualization
+    * Simple Statistical Tools
 
 3. Communicating with Data
 
-    0. Interative Data Visualization
+    * Interative Data Visualization
 
 4. Data_Models
 
-    0. Linear_Models
+    * Linear_Models
 
 5. Other important skills
 
-    0. Linux and Bash shells
-    1. Efficient Coding in Python
-    2. Data Structure and Algorithms
-    3. Parallel and Cloud Computing with Spark technologies
+    * Linux and Bash shells
+    * Efficient Coding in Python
+    * Data Structure and Algorithms
+    * Parallel and Cloud Computing with Spark technologies
 
 ---
 
 # <a name="Environment-Configuration"></a> Environment Configuration
 Choice of Working Environments: I recommend *VScode* and *WSL* for projects, *Jupyter Notebook* for prototyping.
+
 Manage of python packages: I recommend *Anaconda* for this task.
+
 Manage of version control and collaboration: Use *git* for personal projects, Use *Github* for open projects, *GitLab* for industrial projects.
 
 Google or bing these keywords to find revelvant tutorials. This will be the last reminder of such actions.
@@ -91,7 +93,9 @@ df = json_normalize(yourjsonfile,['key1', 'key2', ...], max_level=3)
 
 ### Get data from APIs
 Before we begin, have some basic knowledge on how the internet works and what is http, and what is API.
+
 Getting data from web API usually require reading API manuals for specific APIs.
+
 I recommend using package requests for this task in Python.
 
 ```
