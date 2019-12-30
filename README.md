@@ -43,13 +43,13 @@ There are many great sources to learn Data Science, and here are some advice to 
 
     * Interative Data Visualization
 
-4. Data_Models
+4. [Data Models](#Data-Models)
 
     * Linear_Models
 
 5. Other important skills
 
-    * Linux and Bash shells
+    * [Linux and Bash shells](#Linux-and-Bash-shells)
     * Efficient Coding in Python
     * Data Structure and Algorithms
     * Parallel and Cloud Computing with Spark technologies
@@ -133,6 +133,32 @@ table_rows = cursor.fetchall()
 df= pd.DataFrame(table_rows, columns=cursor.column_names)
 cnx.close()
 ```
+
+Here, I will also include some techniques about joining tables using SQL code.
+
+
+Self-join is just treat the same table as two tables. 
+
+```
+## Suppose populations is a table with column size, country_code and year
+SELECT p1.country_code,
+       p1.size AS size2010, 
+       p2.size AS size2015,
+-- 2. From populations (alias as p1)
+FROM populations AS p1
+  -- 3. Join to itself (alias as p2)
+  INNER JOIN populations AS p2
+    -- 4. Match on country code
+    ON p1.country_code = p2.country_code
+        -- 5. and year (with calculation)
+        AND p1.year = p2.year - 5;
+```
+
+Case when and then:
+Sometimes you want to put numerical data into groups, it's time to use CASE WHEN THEN ELSE END commands.
+
+
+
 
 ## Organizing Data
 ### Take a First Look
@@ -270,7 +296,7 @@ source = ColumnDataSource(data={
 # Save the minimum and maximum values of the col1 column: xmin, xmax
 xmin, xmax = min(data.col1), max(data.col1)
 
-# Save the minimum and maximum values of the col2 expectancy column: ymin, ymax
+# Save the minimum and maximum values of the col2 column: ymin, ymax
 ymin, ymax = min(data.col2), max(data.col2)
 
 # Create the figure: plot
@@ -293,4 +319,225 @@ curdoc().title = 'document name'
 
 
 ```
-Second, we enhance the plot with some shading
+
+Second, we enhance the plot with some shading.
+
+```
+# Make a list of the unique values from the col5 column: col5s_list
+col5s_list = data.col5.unique().tolist()
+
+# Import CategoricalColorMapper from bokeh.models and the Spectral6 palette from bokeh.palettes
+from bokeh.models import CategoricalColorMapper
+from bokeh.palettes import Spectral6
+
+# Make a color mapper: color_mapper
+color_mapper = CategoricalColorMapper(factors=col5s_list, palette=Spectral6)
+
+# Add the color mapper to the circle glyph
+plot.circle(x='x', y='y', fill_alpha=0.8, source=source,
+            color=dict(field='col5', transform=color_mapper), legend='col5')
+
+# Set the legend.location attribute of the plot to 'top_right'
+plot.legend.location = 'top_right'
+
+# Add the plot to the current document and add the title
+curdoc().add_root(plot)
+curdoc().title = 'titleOfDocument'
+```
+
+Third, we can add slider to vary the rowlabel (of some attributes). E.g. Year, age, etc..
+
+```
+# Import the necessary modules
+from bokeh.layouts import widgetbox, row
+from bokeh.models import Slider
+
+# Define the callback function: update_plot
+def update_plot(attr, old, new):
+    # Set the rowvalue name to slider.value and new_data to source.data
+    rowvalue = slider.value
+    new_data = {
+        'x'       : data.loc[rowvalue].col1,
+        'y'       : data.loc[rowvalue].col2
+        'y2' : data.loc[rowvalue].col3,
+        'y3'     : data.loc[rowvalue].col4,
+        'y4'  : data.loc[rowvalue].col5
+    }
+    source.data = new_data
+    plot.title.text = ' Plot data for %d' % rowvalue
+
+
+# Make a slider object: slider
+slider = Slider(start=initRowVal,end=endRowVal,step=1,value=initRowVal, title='AttributeLabel')
+
+# Attach the callback to the 'value' property of slider
+slider.on_change('value',update_plot)
+
+# Make a row layout of widgetbox(slider) and plot and add it to the current document
+layout = row(widgetbox(slider), plot)
+curdoc().add_root(layout)
+```
+
+Fourth, we could add more interactivity.
+Try these out to get a sense about what are they doing:
+
+HoverTool:
+```
+# Import HoverTool from bokeh.models
+from bokeh.models import HoverTool
+
+# Create a HoverTool: hover
+hover = HoverTool(tooltips=[('Y2', '@y2')])
+
+# Add the HoverTool to the plot
+plot.add_tools(hover)
+# Create layout: layout
+layout = row(widgetbox(slider), plot)
+
+# Add layout to current document
+curdoc().add_root(layout)
+```
+Dropdown Manu:
+
+```
+# Define the callback: update_plot
+def update_plot(attr, old, new):
+    # Read the current value off the slider and 2 dropdowns: rowval, x, y
+    rowval = slider.value
+    x = x_select.value
+    y = y_select.value
+    # Label axes of plot
+    plot.xaxis.axis_label = x
+    plot.yaxis.axis_label = y
+    # Set new_data
+    new_data = {
+        'x'       : data.loc[rowval][x],
+        'y'       : data.loc[rowval][y],
+        'y2' : data.loc[rowval].col3,
+        'y3'     : data.loc[rowval].col4,
+        'y4'  : data.loc[rowval].col5
+    }
+    # Assign new_data to source.data
+    source.data = new_data
+
+    # Set the range of all axes
+    plot.x_range.start = min(data[x])
+    plot.x_range.end = max(data[x])
+    plot.y_range.start = min(data[y])
+    plot.y_range.end = max(data[y])
+
+    # Add title to plot
+    plot.title.text = 'Plot data for %d' % rowval
+
+# Create a dropdown slider widget: slider
+slider = Slider(start=beginVal, end=endVal, step=1, value=beginVal, title='AttributeName')
+
+# Attach the callback to the 'value' property of slider
+slider.on_change('value', update_plot)
+
+# Create a dropdown Select widget for the x data: x_select
+x_select = Select(
+    options=['col1, 'col2', 'col3', 'col4'],
+    value='col1',
+    title='x-axis data'
+)
+
+# Attach the update_plot callback to the 'value' property of x_select
+x_select.on_change('value', update_plot)
+
+# Create a dropdown Select widget for the y data: y_select
+y_select = Select(
+    options=['col1, 'col2', 'col3', 'col4'],
+    value='col2',
+    title='y-axis data'
+)
+
+# Attach the update_plot callback to the 'value' property of y_select
+y_select.on_change('value', update_plot)
+
+# Create layout and add to current document
+layout = row(widgetbox(slider, x_select, y_select), plot)
+curdoc().add_root(layout)
+```
+
+
+
+
+
+# <a name="Data-Models"></a> Data Models
+## Linear Models
+
+
+
+
+# <a name="Linux-and-Bash-shells"></a> Linux and Bash shells
+Google *Basic Bash Commands* for pwd, cp, cd, ls, cat, vim, nano, >, mv , sudo, apt update, apt upgrade, apt intall, etc...
+
+
+## Login to a server
+```
+ssh -A yourAccountName@ipAddressOrHostName
+```
+Manage your ssh identity
+
+activate your ssh-agent
+
+```
+eval $(ssh-agent -s)
+
+```
+add a ssh identity, for example your private key is of name id_rsa
+
+```
+ssh-add id_rsa
+```
+
+
+## change permission status of a file
+```
+chmod someCode yourFile
+```
+someCode=400 makes it non-writable by your own user. 
+someCode=600 allows owner read-write not just read.
+
+## Change Ownership of a file
+```
+chown new-owner  filename
+```
+new-owner: Specifies the user name or UID of the new owner of the file or directory.  
+filename: Specifies the file or directory. 
+
+## Compress/Decompress a file
+Compress a file
+```
+tar cvzf filename.tar.gz filename
+```
+
+## File Transfer
+
+Copy LocalFile to your remoteDestination
+```
+scp LocalFile RemoteDestinationFolder
+```
+Sometimes File Transfer may fail because perssion denied. You need to change ownership of the file.
+
+## Activate and shut down your root power* (Caution, don't do this if you don't know why root power is dangerous.)
+Activate: use `sudo su -`
+Shut down: use `exit` or `logout`
+
+## Check processes
+```
+ps aux
+```
+
+check processes with keyword
+
+```
+ps aux | grep agent
+```
+
+kill process
+
+```
+kill taskID
+```
