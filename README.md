@@ -205,6 +205,9 @@ example1_datetime_list[0].ctime()
 ## The classic format called 'iso format' for date is 'YYYY-MM-DD'
 ## Let's check out the first date in our list in iso format:
 example1_datetime_list[0].date().isoformat()
+
+## Convert timedelta to floats for calculations
+aFloat = example1_datetime_list[0]/np.timedelta64(1,'D')
 ```
 
 #### Processing Lists
@@ -541,3 +544,13 @@ kill process
 ```
 kill taskID
 ```
+## Getting file from web on Linux Server
+ First, install *wget* using  ` yum install wget` or `sudo apt-get install wget`.
+ 
+ Then type:
+ ```
+wget yoururl
+ ```
+
+ One tip for getting url from a masked hyperlink like [this] on graphical user interface:
+ right click the text and select 'Copy link address'.
