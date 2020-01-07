@@ -541,7 +541,7 @@ Compress a file
 tar cvzf filename.tar.gz filename
 ```
 
-## File Transfer
+### File Transfer
 
 Copy LocalFile to your remoteDestination
 
@@ -558,11 +558,13 @@ Shut down: use `exit` or `logout`
 
 ### Check processes
 
+check all processes
+
 ```bash
 ps aux
 ```
 
-check processes with keyword
+check processes with keyword, for example: *agent*.
 
 ```bash
 ps aux | grep agent
@@ -581,7 +583,7 @@ First, install *wget* using  `yum install wget` or `sudo apt-get install wget`.
 Then type:
 
 ```bash
-wget yoururl
+wget yourUrl
 ```
 
 One tip for getting url from a masked hyperlink like [this] on graphical user interface:
