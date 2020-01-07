@@ -1,26 +1,30 @@
 # Python-DS-ToolBox
+
 Python Data Science Toolbox
-## What is this note book about?
+
+## What is this note book about
+
 This is my personal open notebook for Data Science in Python. Its target is people who have no or little experience in Data Science.
 Unlike many books, this notebook is quite short and superficial. It covers major steps of doing simple data analysis.
 These are simple examples for performing the tasks. Always consult documents, or google when using the functions if you have any doubt.
 I learnt the those tools from many sources, welcome to browse and edit this notebook.
-This notebook is just a **remainder for what is available out there**. It does not offer any mathematical or technical or business details. 
-You can visit this [handbook](https://jakevdp.github.io/PythonDataScienceHandbook/) for technical details. 
+This notebook is just a **remainder for what is available out there**. It does not offer any mathematical or technical or business details.
+You can visit this [handbook](https://jakevdp.github.io/PythonDataScienceHandbook/) for technical details.
 
 ## Quick advice
+
 There are many great sources to learn Data Science, and here are some advice to dive into this field quickly:
 
-0. Get some basic foundation in statistics and python. See www.hackerrank.com.
-1. Get to know the general idea and areas of knowledge about data science.
-2. Practice as you go. Google or Bing any term or question you don't understand. Stackoverflow and supporting documents for specific packages and functions are your best friend. During this process, do not lose sight of the big picture of data science.
-3. Become a better data scientiest by doing more projects! (Don't try to memorize these tools, just do data science!)
-4. Once comfortable with all materials in this notebook and engage in data analysis in business, you will know what skills to pick up next.
+1. Get some basic foundation in statistics and python. See www.hackerrank.com.
+2. Get to know the general idea and areas of knowledge about data science.
+3. Practice as you go. Google or Bing any term or question you don't understand. Stackoverflow and supporting documents for specific packages and functions are your best friend. During this process, do not lose sight of the big picture of data science.
+4. Become a better data scientiest by doing more projects! (Don't try to memorize these tools, just do data science!)
+5. Once comfortable with all materials in this notebook and engage in data analysis in business, you will know what skills to pick up next.
 
 ## Materials in this notebook
 
-0. [Environment Configuration](#Environment-Configuration)
-1. [Data Processing](#Data-Processing)
+1. [Environment Configuration](#Environment-Configuration)
+2. [Data Processing](#Data-Processing)
 
     * Getting Data
 
@@ -34,20 +38,20 @@ There are many great sources to learn Data Science, and here are some advice to 
             * Processing Lists
         * Transform DataFrames
 
-2. [Exploring Data](#Exploring-Data)
+3. [Exploring Data](#Exploring-Data)
 
     * Simple Data Visualization
     * Simple Statistical Tools
 
-3. [Communicating with Data](#Communicating-with-Data)
+4. [Communicating with Data](#Communicating-with-Data)
 
     * Interative Data Visualization
 
-4. [Data Models](#Data-Models)
+5. [Data Models](#Data-Models)
 
     * Linear_Models
 
-5. Other important skills
+6. Other important skills
 
     * [Linux and Bash shells](#Linux-and-Bash-shells)
     * Efficient Coding in Python
@@ -56,7 +60,8 @@ There are many great sources to learn Data Science, and here are some advice to 
 
 ---
 
-# <a name="Environment-Configuration"></a> Environment Configuration
+## <a name="Environment-Configuration"></a> Environment Configuration
+
 Choice of Working Environments: I recommend *VScode* and *WSL* for projects, *Jupyter Notebook* for prototyping.
 
 Manage of python packages: I recommend *Anaconda* for this task. 
@@ -65,40 +70,49 @@ Manage of version control and collaboration: Use *git* for personal projects, Us
 
 Google or bing these keywords to find revelvant tutorials. This will be the last reminder of such actions.
 
-# <a name="Data-Processing"></a> Data Processing
-## Getting Data
-### Read Data From Files
-```
+## <a name="Data-Processing"></a> Data Processing
+
+### Getting Data
+
+#### Read Data From Files
+
+```python
 import pandas as pd
 ```
-#### csv file
+
+##### csv file
+
 csv stands for comma-separated values. Our target is to import csv file into a PandasDataFrame.
 The first step is to understands what is the delimiter of the file.
 Then we use the function read_csv in pandas.
 
 Suppose f is a csv file with tab as delimiters, then we do this:
-```
+
+```python
 df = pd.read_csv(f,delimiter ='\t')
 ```
 
-#### json files
+##### json files
+
 json files are human readable, you can think of them as python dictionaries. We want to load them into pandas DataFrame.
 The furst step is to view your data to get a sense.
 The second step is to use a function called json_normalize.
-```
+
+```python
 from pandas.io.json import json_normalize
 
 df = json_normalize(yourjsonfile,['key1', 'key2', ...], max_level=3)
 ```
 
-### Get data from APIs
+#### Get data from APIs
+
 Before we begin, have some basic knowledge on how the internet works and what is http, and what is API.
 
 Getting data from web API usually require reading API manuals for specific APIs.
 
 I recommend using package requests for this task in Python.
 
-```
+```python
 # Assign URL to variable: url
 
 url = 'yoururl' # Consult your api documents here.
@@ -108,14 +122,17 @@ header = {"Accept-Encoding":"gzip"} # Consult your api documents and requests pa
 # Package the request, send the request and catch the response: r
 param_dict = {your_parameters}# Consult your api documents and requests package website here.
 
-with requests.Session() as s: 
+with requests.Session() as s:
     download = s.post(url, data=param_dict,headers=header) ## consult post, get, and other http requests.
-```    
-### Get data from a SQL database
+```
+
+#### Get data from a SQL database
+
 Here I will use a MySQL database for example. We are going to get data from MySQL database using SQL commands in python.
 
 There are abundant choices of packages here. I use mysql-connector package.
-```
+
+```python
 import mysql.connector
 import pandas as pd
 
@@ -136,13 +153,12 @@ cnx.close()
 
 Here, I will also include some techniques about joining tables using SQL code.
 
+Self-join is just treat the same table as two tables.
 
-Self-join is just treat the same table as two tables. 
-
-```
+```sql
 ## Suppose populations is a table with column size, country_code and year
 SELECT p1.country_code,
-       p1.size AS size2010, 
+       p1.size AS size2010,
        p2.size AS size2015,
 -- 2. From populations (alias as p1)
 FROM populations AS p1
@@ -157,14 +173,13 @@ FROM populations AS p1
 Case when and then:
 Sometimes you want to put numerical data into groups, it's time to use CASE WHEN THEN ELSE END commands.
 
+### Organizing Data
 
+#### Take a First Look
 
-
-## Organizing Data
-### Take a First Look
 Before you do anything to your newly gained data, it's always a good idea to look at it first.
 
-```
+```python
 
 import pandas as pd
 
@@ -177,11 +192,13 @@ data.describe()
 
 ```
 
-### Data Cleaning
-Basic str manipulations are quite handy in data cleaning.
-#### Processing Datetimes
+#### Data Cleaning
 
-```
+Basic str manipulations are quite handy in data cleaning.
+
+##### Processing Datetimes
+
+```python
 ## This document displays common tools for dealing with datetime data
 
 from datetime import date
@@ -210,8 +227,9 @@ example1_datetime_list[0].date().isoformat()
 aFloat = example1_datetime_list[0]/np.timedelta64(1,'D')
 ```
 
-#### Processing Lists
-```
+##### Processing Lists
+
+```python
 ### This document introduces some common operations of lists in Python
 
 ## Concatenate list of lists:
@@ -221,9 +239,9 @@ x=[[1],[2],[3]]
 new_list=[x[i][j] for i in range(len(x)) for j in range(len(x[i]))]
 ```
 
+#### Transform DataFrames
 
-### Transform DataFrames
-```
+```python
 import pandas as pd
 
 ## Suppose df is a loaded DataFrame, 'column_name' is the name of one of its columns.
@@ -240,14 +258,16 @@ df = df1.merge(df2,how='inner',on='column_name')
 
 ```
 
-# <a name="Exploring-Data"></a> Exploring Data
-## Simple Data Visualization
+## <a name="Exploring-Data"></a> Exploring Data
+
+### Simple Data Visualization
+
 There are many tutorials for the famous *matplotlib* package for plotting in Python.
 Therefore, here I will present an alternative package for plotting: *bokeh*.
 
 I prefer Bokeh because it supports interactive design.
 
-```
+```python
 ## Suppose data is a pandas DataFrame with our data and our goal is to plot a scatter plot of data.column1 against data.column2
 
 # Perform necessary imports
@@ -274,12 +294,13 @@ show(p)
 
 ```
 
+## <a name="Communicating-with-Data"></a> Communicating with Data
 
-# <a name="Communicating-with-Data"></a> Communicating with Data
-## Interactive Data Visualization
+### Interactive Data Visualization
 
 First, we make a plot.
-```
+
+```python
 ### Suppose data is a pandas DataFrame, with certain row and column labels
 
 # Import the necessary modules
@@ -325,7 +346,7 @@ curdoc().title = 'document name'
 
 Second, we enhance the plot with some shading.
 
-```
+```python
 # Make a list of the unique values from the col5 column: col5s_list
 col5s_list = data.col5.unique().tolist()
 
@@ -350,7 +371,7 @@ curdoc().title = 'titleOfDocument'
 
 Third, we can add slider to vary the rowlabel (of some attributes). E.g. Year, age, etc..
 
-```
+```python
 # Import the necessary modules
 from bokeh.layouts import widgetbox, row
 from bokeh.models import Slider
@@ -385,7 +406,8 @@ Fourth, we could add more interactivity.
 Try these out to get a sense about what are they doing:
 
 HoverTool:
-```
+
+```python
 # Import HoverTool from bokeh.models
 from bokeh.models import HoverTool
 
@@ -400,9 +422,10 @@ layout = row(widgetbox(slider), plot)
 # Add layout to current document
 curdoc().add_root(layout)
 ```
+
 Dropdown Manu:
 
-```
+```python
 # Define the callback: update_plot
 def update_plot(attr, old, new):
     # Read the current value off the slider and 2 dropdowns: rowval, x, y
@@ -463,94 +486,130 @@ layout = row(widgetbox(slider, x_select, y_select), plot)
 curdoc().add_root(layout)
 ```
 
+## <a name="Data-Models"></a> Data Models
 
+### Linear Models
 
+## <a name="Linux-and-Bash-shells"></a> Linux and Bash shells
 
-
-# <a name="Data-Models"></a> Data Models
-## Linear Models
-
-
-
-
-# <a name="Linux-and-Bash-shells"></a> Linux and Bash shells
 Google *Basic Bash Commands* for pwd, cp, cd, ls, cat, vim, nano, >, mv , sudo, apt update, apt upgrade, apt intall, etc...
 
+### Login to a server
 
-## Login to a server
-```
+```bash
 ssh -A yourAccountName@ipAddressOrHostName
 ```
-Manage your ssh identity
+
+### Manage your ssh identity
 
 activate your ssh-agent
 
-```
+```bash
 eval $(ssh-agent -s)
 
 ```
+
 add a ssh identity, for example your private key is of name id_rsa
 
-```
+```bash
 ssh-add id_rsa
 ```
 
+### change permission status of a file
 
-## change permission status of a file
-```
+```bash
 chmod someCode yourFile
 ```
-someCode=400 makes it non-writable by your own user. 
+
+someCode=400 makes it non-writable by your own user.
 someCode=600 allows owner read-write not just read.
 
-## Change Ownership of a file
-```
+### Change Ownership of a file
+
+```bash
 chown new-owner  filename
 ```
-new-owner: Specifies the user name or UID of the new owner of the file or directory.  
-filename: Specifies the file or directory. 
 
-## Compress/Decompress a file
+new-owner: Specifies the user name or UID of the new owner of the file or directory.  
+filename: Specifies the file or directory.
+
+### Compress/Decompress a file
+
 Compress a file
-```
+
+```bash
 tar cvzf filename.tar.gz filename
 ```
 
 ## File Transfer
 
 Copy LocalFile to your remoteDestination
-```
+
+```bash
 scp LocalFile RemoteDestinationFolder
 ```
+
 Sometimes File Transfer may fail because perssion denied. You need to change ownership of the file.
 
-## Activate and shut down your root power* (Caution, don't do this if you don't know why root power is dangerous.)
+### Activate and shut down your root power* (Caution, don't do this if you don't know why root power is dangerous.)
+
 Activate: use `sudo su -`
 Shut down: use `exit` or `logout`
 
-## Check processes
-```
+### Check processes
+
+```bash
 ps aux
 ```
 
 check processes with keyword
 
-```
+```bash
 ps aux | grep agent
 ```
 
 kill process
 
-```
+```bash
 kill taskID
 ```
-## Getting file from web on Linux Server
- First, install *wget* using  ` yum install wget` or `sudo apt-get install wget`.
- 
- Then type:
- ```
-wget yoururl
- ```
 
- One tip for getting url from a masked hyperlink like [this] on graphical user interface:
- right click the text and select 'Copy link address'.
+## Getting file from web on Linux Server
+
+First, install *wget* using  `yum install wget` or `sudo apt-get install wget`.
+
+Then type:
+
+```bash
+wget yoururl
+```
+
+One tip for getting url from a masked hyperlink like [this] on graphical user interface:
+right click the text and select 'Copy link address'.
+
+### Adding a PATH variable
+
+Sometimes when you install a new software, you need to add a new PATH variable to your environment so that you can call the new software easily.
+
+First you can run the following two lines:
+
+'''bash
+PATH=YourPathToTheFolderOfTheNewSoftware:$PATH
+export PATH
+'''
+
+Then you can include these two lines in your ~/.bashrc file.
+
+Sometimes you messed up the PATH variable by messed up ~/.bashrc file, (you find yourself cannot use ls or vim commands), relax, just run
+
+```bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+```
+
+and debug ~/.bashrc file using vim.
+
+### Learn to use vim
+
+```bash
+vimtutor
+```
