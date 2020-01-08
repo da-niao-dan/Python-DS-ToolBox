@@ -70,6 +70,21 @@ Manage of version control and collaboration: Use *git* for personal projects, Us
 
 Google or bing these keywords to find revelvant tutorials. This will be the last reminder of such actions.
 
+### conda environment quick set up
+
+Save environment to a text ﬁle.
+
+```bash
+conda list --explicit > bio-env.txt
+```
+
+Create environment from a text ﬁle.
+
+```bash
+conda env create --file bio-env.txt
+```
+
+
 ## <a name="Data-Processing"></a> Data Processing
 
 ### Getting Data
