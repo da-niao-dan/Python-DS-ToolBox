@@ -516,13 +516,17 @@ However, here are some basic git commands to get you up to speed:
 
 ```bash
 git init ###initialize a git repo locally at your current folder
-git remote set-url origin linkToGitRepo Online ### set a remote destination to sync with your git repo
+git remote add origin linkToGitRepoOnline ## set a remote destination to sync with your git repo
+git remote set-url origin linkToGitRepoOnline ## change the url of your remote called origin. from now on, origin stands for linkToGitRepoOnline
 git pull origin branchNameHere ## pull data from remote branch to local repo
 #### you modify or create some files
 git add * ## stage all files you modified
 git commit ## Say what you changed
 git commit -a -m 'changes descriptions' ## quicker, but essentially same as above
-git push origin branchNameHere ## push changes to a remote branch
+
+git push origin master ## push changes to a remote branch master of origin, Here origin is a remote name, master is a branch name.
+git push --set-upstream remoteNameHere branchNameHere ## If you run this once, later you only need:
+git push
 
 git checkout -b branchNameHere ## switch to a branch
 git checkout master ## switch to master branch
@@ -573,14 +577,6 @@ chown new-owner  filename
 
 new-owner: Specifies the user name or UID of the new owner of the file or directory.  
 filename: Specifies the file or directory.
-
-### Compress/Decompress a file
-
-Compress a file
-
-```bash
-tar cvzf filename.tar.gz filename
-```
 
 ### File Transfer
 
