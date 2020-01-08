@@ -506,6 +506,7 @@ git pull origin branchNameHere ## pull data from remote branch to local repo
 #### you modify or create some files
 git add * ## stage all files you modified
 git commit ## Say what you changed
+git commit -a -m 'changes descriptions' ## quicker, but essentially same as above
 git push origin branchNameHere ## push changes to a remote branch
 
 git checkout -b branchNameHere ## switch to a branch
