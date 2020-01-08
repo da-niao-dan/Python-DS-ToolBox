@@ -62,7 +62,7 @@ There are many great sources to learn Data Science, and here are some advice to 
 
 ## <a name="Environment-Configuration"></a> Environment Configuration
 
-Choice of Working Environments: I recommend *VScode* and *WSL* for projects, *Jupyter Notebook* for prototyping.
+Choice of Working Environments: I recommend using *VScode* with remote *WSL* and *ssh on linux servers* for projects, while using *Jupyter Notebook* for prototyping.
 
 Manage of python packages: I recommend *Anaconda* for this task. 
 
