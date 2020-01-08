@@ -52,7 +52,7 @@ There are many great sources to learn Data Science, and here are some advice to 
     * Linear_Models
 
 6. Other important skills
-
+    * git
     * [Linux and Bash shells](#Linux-and-Bash-shells)
     * Efficient Coding in Python
     * Data Structure and Algorithms
@@ -255,7 +255,10 @@ df.set_index('column_name')
 ## You can merge them using inner join. Save the merged DataFrame as df.
 df = df1.merge(df2,how='inner',on='column_name')
 
-
+### Deal with nans
+df['DataFrame Column'] = df['DataFrame Column'].fillna(0)
+df.fillna(0)
+df.replace(np.nan,0)
 ```
 
 ## <a name="Exploring-Data"></a> Exploring Data
@@ -490,9 +493,31 @@ curdoc().add_root(layout)
 
 ### Linear Models
 
+## Git
+
+There is a official git [guide](https://git-scm.com/). Use it as reference and install git according to it.
+
+However, here are some basic git commands to get you up to speed:
+
+```bash
+git init ###initialize a git repo locally at your current folder
+git remote set-url origin linkToGitRepo Online ### set a remote destination to sync with your git repo
+git pull origin branchNameHere ## pull data from remote branch to local repo
+#### you modify or create some files
+git add * ## stage all files you modified
+git commit ## Say what you changed
+git push origin branchNameHere ## push changes to a remote branch
+
+git checkout -b branchNameHere ## switch to a branch
+git checkout master ## switch to master branch
+git merge branchNameHere ## merge branchNameHere branch with current branch
+
+```
+
+
 ## <a name="Linux-and-Bash-shells"></a> Linux and Bash shells
 
-Google *Basic Bash Commands* for pwd, cp, cd, ls, cat, vim, nano, >, mv , sudo, apt update, apt upgrade, apt intall, etc...
+Google *Basic Bash Commands* for pwd, cp, cd, ls, cat, vim, nano, >, mv, sudo, apt update, apt upgrade, apt intall, man, du, df  etc...
 
 ### Login to a server
 
@@ -576,7 +601,7 @@ kill process
 kill taskID
 ```
 
-## Getting file from web on Linux Server
+### Getting file from web on Linux Server
 
 First, install *wget* using  `yum install wget` or `sudo apt-get install wget`.
 
@@ -589,16 +614,79 @@ wget yourUrl
 One tip for getting url from a masked hyperlink like [this] on graphical user interface:
 right click the text and select 'Copy link address'.
 
+### compress and decompress files
+
+#### tar files
+
+List the contents of a tar file:
+
+```bash
+tar -tvf archive.tar
+```
+
+Extract the contents of a tar file:
+
+```bash
+tar -xf archive.tar
+```
+
+Extract all the contents of a gzipped tar file:
+
+```bash
+tar -xzvf archive.tar.gz
+```
+
+Extract one file from a tar file:
+
+```bash
+tar -xvf archive.tar targetFileName
+```
+
+Extract some files specified by a particular format from a tar file:
+
+```bash
+tar -xvf archive.tar --wildcards '*2019.sh'
+```
+
+Create an tar Archive for a folder:
+
+```bash
+tar -cf archive.tar mydir/
+```
+
+Create an gzipped tar Archive for a folder :
+
+```bash
+tar -czf archive.tar.gz mydir/
+```
+
+#### gzip files
+
+decompress a file
+
+```bash
+gzip -d someFile.gz
+```
+
+compress a file
+use option 1 to 9, 1 is for maximum compression at the slowest speed, 9 is for minimum compression at the fastest speed.
+
+```bash
+gzip -1 someFile
+gzip -2 someFile
+gzip -9 someFile
+```
+
 ### Adding a PATH variable
 
 Sometimes when you install a new software, you need to add a new PATH variable to your environment so that you can call the new software easily.
 
 First you can run the following two lines:
 
-'''bash
+```bash
 PATH=YourPathToTheFolderOfTheNewSoftware:$PATH
 export PATH
-'''
+```
 
 Then you can include these two lines in your ~/.bashrc file.
 
@@ -610,7 +698,13 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/us
 
 and debug ~/.bashrc file using vim.
 
+```bash
+vim ~/.bashrc
+```
+
 ### Learn to use vim
+
+Open bash and type:
 
 ```bash
 vimtutor
