@@ -70,7 +70,7 @@ Manage of version control and collaboration: Use *git* for personal projects, Us
 
 Google or bing these keywords to find revelvant tutorials. This will be the last reminder of such actions.
 
-### conda environment quick set up
+### Prototyping Environment: conda environment quick set up with python jupyter notebook
 
 Save environment to a text ﬁle.
 
@@ -84,6 +84,22 @@ Create environment from a text ﬁle.
 conda env create --file bio-env.txt
 ```
 
+### Local Developing Environment setup: VScode with WSL
+
+WSL is shorthand for Windows Subsystem for Linux, essentially, you can use linux working environment on Windows with ease. Install WSL according to this [guide](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
+
+Then you start to work with VScode and WSL following this [guide](https://code.visualstudio.com/remote-tutorials/wsl/getting-started).
+
+### Getting access to Remote destinations: ssh
+
+Get to know what is a [ssh](https://www.ssh.com/ssh/key) key.
+Put it simply, you generate public and private key on your computer, you give ssh public key on remote machines which you have access for. Then you can log in to these remote destinations securely.
+
+Following this [guide](https://help.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account) to add a ssh public key to your github account.
+
+### Work on remote destinations using VScode
+
+Follow this [guide](https://code.visualstudio.com/docs/remote/remote-overview)
 
 ## <a name="Data-Processing"></a> Data Processing
 
@@ -187,6 +203,32 @@ FROM populations AS p1
 
 Case when and then:
 Sometimes you want to put numerical data into groups, it's time to use CASE WHEN THEN ELSE END commands.
+
+Use INTO statements to save query results into a table:
+
+```sql
+SELECT country_code, size,
+  CASE WHEN size > 50000000
+            THEN 'large'
+       WHEN size > 1000000
+            THEN 'medium'
+       ELSE 'small' END
+       AS popsize_group
+INTO pop_plus
+FROM populations
+WHERE year = 2015;
+
+-- 5. Select fields
+select *
+-- 1. From countries_plus (alias as c)
+from countries_plus as c
+  -- 2. Join to pop_plus (alias as p)
+  inner join pop_plus as p
+    -- 3. Match on country code
+    on c.code = p.country_code
+-- 4. Order the table
+order by geosize_group asc;
+```
 
 ### Organizing Data
 
