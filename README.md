@@ -90,7 +90,7 @@ WSL is shorthand for Windows Subsystem for Linux, essentially, you can use linux
 
 Then you start to work with VScode and WSL following this [guide](https://code.visualstudio.com/remote-tutorials/wsl/getting-started).
 
-Remember to set up python3 environment according to this [guide](https://code.visualstudio.com/docs/languages/python). And the links in the guide above.
+Remember to set up python3 environment according to this [guide](https://code.visualstudio.com/docs/languages/python). And the links in the guide above. Notice that, anaconda, jupyter notebook are all supported in VScode as well.
 
 ### Getting access to Remote destinations: ssh
 
