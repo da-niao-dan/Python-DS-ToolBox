@@ -90,6 +90,8 @@ WSL is shorthand for Windows Subsystem for Linux, essentially, you can use linux
 
 Then you start to work with VScode and WSL following this [guide](https://code.visualstudio.com/remote-tutorials/wsl/getting-started).
 
+Remember to set up python3 environment according to this [guide](https://code.visualstudio.com/docs/languages/python). And the links in the guide above.
+
 ### Getting access to Remote destinations: ssh
 
 Get to know what is a [ssh](https://www.ssh.com/ssh/key) key.
@@ -99,7 +101,7 @@ Following this [guide](https://help.github.com/en/github/authenticating-to-githu
 
 ### Work on remote destinations using VScode
 
-Follow this [guide](https://code.visualstudio.com/docs/remote/remote-overview)
+Follow this [guide](https://code.visualstudio.com/docs/remote/remote-overview)。
 
 ## <a name="Data-Processing"></a> Data Processing
 
