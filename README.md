@@ -101,7 +101,7 @@ Following this [guide](https://help.github.com/en/github/authenticating-to-githu
 
 ### Work on remote destinations using VScode
 
-Follow this [guide](https://code.visualstudio.com/docs/remote/remote-overview)。
+Follow this [guide](https://code.visualstudio.com/docs/remote/remote-overview).
 
 ## <a name="Data-Processing"></a> Data Processing
 
