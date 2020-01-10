@@ -92,6 +92,18 @@ Then you start to work with VScode and WSL following this [guide](https://code.v
 
 Remember to set up python3 environment according to this [guide](https://code.visualstudio.com/docs/languages/python). And the links in the guide above. Notice that, anaconda, jupyter notebook are all supported in VScode as well.
 
+### Install anaconda on WSL inside VScode
+
+Open bash terminal:
+
+```bash
+wget https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh
+sha256sum filename  ### check the file is secure
+bash Anaconda3--2019.10-Linux-x86_64.sh ## install it
+
+conda update conda ## update conda to the newest version
+```
+
 ### Getting access to Remote destinations: ssh
 
 Get to know what is a [ssh](https://www.ssh.com/ssh/key) key.
@@ -611,7 +623,17 @@ chmod someCode yourFile
 ```
 
 someCode=400 makes it non-writable by your own user.
+
 someCode=600 allows owner read-write not just read.
+
+someCode=700 allows owner to read write and execute a file/folder.
+
+**If you have problem with ssh logins, use the following command:**
+
+```bash
+chmod 700 -R ~/.ssh
+chmod 400 ~/.ssh/id_rsa   ## assuming id_rsa is your private key
+```
 
 ### Change Ownership of a file
 
