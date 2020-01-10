@@ -74,7 +74,8 @@ Google or bing these keywords to find revelvant tutorials. This will be the last
 
 Save environment to a text ﬁle.
 
-install for example, jupyterlab
+install for example, jupyterlab.
+
 ```bash
 conda install -c conda-forge jupyterlab
 ```
@@ -86,7 +87,7 @@ conda list --explicit > bio-env.txt
 Create environment from a text ﬁle.
 
 ```bash
-conda env create --file bio-env.txt
+conda env create --file bio-env.txt nameHere
 ```
 
 ### Local Developing Environment setup: VScode with WSL
