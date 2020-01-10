@@ -62,7 +62,7 @@ There are many great sources to learn Data Science, and here are some advice to 
 
 ## <a name="Environment-Configuration"></a> Environment Configuration
 
-Choice of Working Environments: I recommend using *VScode* with remote *WSL* and *ssh on linux servers* for projects, while using *Jupyter Notebook* for prototyping.
+Choice of Working Environments: I recommend using *VScode* with remote *WSL* and *ssh on linux servers* for projects, while using *JupyterLab* for prototyping.
 
 Manage of python packages: I recommend *Anaconda* for this task. 
 
@@ -73,6 +73,11 @@ Google or bing these keywords to find revelvant tutorials. This will be the last
 ### Prototyping Environment: conda environment quick set up with python jupyter notebook
 
 Save environment to a text ﬁle.
+
+install for example, jupyterlab
+```bash
+conda install -c conda-forge jupyterlab
+```
 
 ```bash
 conda list --explicit > bio-env.txt
