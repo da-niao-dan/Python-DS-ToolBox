@@ -575,6 +575,8 @@ git init ###initialize a git repo locally at your current folder
 git remote add origin linkToGitRepoOnline ## set a remote destination to sync with your git repo
 git remote set-url origin linkToGitRepoOnline ## change the url of your remote called origin. from now on, origin stands for linkToGitRepoOnline
 git pull origin branchNameHere ## pull data from remote branch to local repo
+
+
 #### you modify or create some files
 git add * ## stage all files you modified
 git commit ## Say what you changed
@@ -584,6 +586,7 @@ git push origin master ## push changes to a remote branch master of origin, Here
 git push --set-upstream remoteNameHere branchNameHere ## If you run this once, later you only need:
 git push
 
+git branch newBranch ## create a new branch
 git checkout -b branchNameHere ## switch to a branch
 git checkout master ## switch to master branch
 git merge branchNameHere ## merge branchNameHere branch with current branch
