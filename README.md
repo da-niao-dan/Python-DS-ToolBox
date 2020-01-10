@@ -111,6 +111,8 @@ Put it simply, you generate public and private key on your computer, you give ss
 
 Following this [guide](https://help.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account) to add a ssh public key to your github account.
 
+On Mac VScode bash, when you try to connect to a host with alias instead of IP, you may run into the problem of not able to connect to the remote. Now you need to edit host file on Mac and /etc/hosts in WSL to add IP address and Domain Name.
+
 ### Work on remote destinations using VScode
 
 Follow this [guide](https://code.visualstudio.com/docs/remote/remote-overview).
