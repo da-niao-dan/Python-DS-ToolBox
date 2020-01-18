@@ -798,3 +798,47 @@ Open bash and type:
 ```bash
 vimtutor
 ```
+### crontab
+
+#### run python script in crontab
+
+*VERY IMPORTANT!*
+
+Assume you have multiple versions of python installed on your computer.
+The first step is to locate your python executable file.
+Now activate the environment you want to use. 
+Type:
+```bash
+which python
+```
+Copy and paste the path, and run python in crontab like this:
+
+```bash
+* * * * * nohup copiedPathToPython YourAbsolutePathToScript  >> /home/yourUserName/cron_lab.log 2>&1
+```
+
+#### run python in crontab with characters other than English
+For example, if you have Chinese character in your python script, you need to
+include ` # -*- coding: utf-8 -*-` at the top of python script. 
+
+
+
+### Set your sudo password feedback visible in *
+
+```bash
+sudo visudo
+```
+
+find the line with 'Defaults env_reset', change it to 'Defaults env_reset,pwfeedback'.
+
+save the file.
+Now refresh and test.
+
+```bash
+sudo -k
+sudo ls
+```
+
+
+
+
