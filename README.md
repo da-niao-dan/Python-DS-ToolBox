@@ -268,6 +268,45 @@ import pandas as pd
 data.info()
 data.head()
 data.describe()
+```
+
+Deal with categorical data:
+
+First, save the names of non-numerical data in a list: LAEBLS.
+
+Then, Convert them into suitable types.
+
+Finally, take a look at unique values of each type.
+
+ 
+
+```python
+
+# Define the lambda function: categorize_label
+categorize_label = lambda x: x.astype('category')
+
+# Convert df[LABELS] to a categorical type
+df[LABELS] = df[LABELS].apply(categorize_label,axis=0)
+
+# Print the converted dtypes
+print(df[LABELS].dtypes)
+
+
+# Import matplotlib.pyplot
+import matplotlib.pyplot as plt
+
+# Calculate number of unique values for each label: num_unique_labels
+num_unique_labels = df[LABELS].apply(pd.Series.nunique)
+
+# Plot number of unique values for each label
+num_unique_labels.plot(kind='bar')
+
+# Label the axes
+plt.xlabel('Labels')
+plt.ylabel('Number of unique values')
+
+# Display the plot
+plt.show()
 
 ```
 
