@@ -631,7 +631,7 @@ pl = Pipeline([
                 ]))
              ]
         )),
-        ('int', SparseInteractions(degree=2)),
+        ('int', PolynomialFeatures(degree=2)),
         ('scale', MaxAbsScaler()),
         ('clf', OneVsRestClassifier(LogisticRegression()))
     ])
