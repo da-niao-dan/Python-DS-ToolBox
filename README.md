@@ -625,7 +625,7 @@ pl = Pipeline([
                 ])),
                 ('text_features', Pipeline([
                     ('selector', get_text_data),
-                    ('vectorizer', CountVectorizer(token_pattern=TOKENS_ALPHANUMERIC,
+                    ('vectorizer', HashingVectorizer(token_pattern=TOKENS_ALPHANUMERIC, non-negative=True, norm=None, binary=False,
                                                    ngram_range=(1, 2))),  
                     ('dim_red', SelectKBest(chi2, chi_k))
                 ]))
