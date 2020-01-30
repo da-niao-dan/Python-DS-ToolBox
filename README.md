@@ -50,9 +50,10 @@ There are many great sources to learn Data Science, and here are some advice to 
     * Unsupervised Learning
     * Supervised Learning
 
-6. Other important skills
-    * git
-    * [Linux and Bash shells](#Linux-and-Bash-shells)
+6. [Git](#Git)
+7. [Linux and Bash shells](#Linux-and-Bash-shells)
+8. [Network Analysis](#Network-Analysis)
+9. Others
     * Efficient Coding in Python
     * Data Structure and Algorithms
     * Parallel and Cloud Computing with Spark technologies
@@ -1425,7 +1426,7 @@ model.fit(X,y,validation_split=0.3)
 
 
 
-## Git
+# <a name="Git"></a>  Git
 
 There is a official git [guide](https://git-scm.com/). Use it as reference and install git according to it.
 
@@ -1437,14 +1438,14 @@ git remote add origin linkToGitRepoOnline ## set a remote destination to sync wi
 git remote set-url origin linkToGitRepoOnline ## change the url of your remote called origin. from now on, origin stands for linkToGitRepoOnline
 git pull origin branchNameHere ## pull data from remote branch to local repo
 
-### Branching
+# Branching
 git branch newBranch master ## create a new branch from master branch
 git checkout -b branchNameHere ## switch to a branch
 git branch -d branchNameHere ## delete a branch
 git checkout master ## switch to master branch
 git merge branchNameHere ## merge branchNameHere branch with current branch
 
-#### you modify or create some files
+# you modify or create some files
 git add * ## stage all files you modified
 git commit ## Say what you changed
 git commit -a -m 'changes descriptions' ## quicker, but essentially same as above
@@ -1455,17 +1456,17 @@ git push
 ```
 
 
-## <a name="Linux-and-Bash-shells"></a> Linux and Bash shells
+# <a name="Linux-and-Bash-shells"></a> Linux and Bash shells
 
 Google *Basic Bash Commands* for pwd, cp, cd, ls, cat, vim, nano, >, mv, sudo, apt update, apt upgrade, apt intall, man, du, df  etc...
 
-### Login to a server
+## Login to a server
 
 ```bash
 ssh -A yourAccountName@ipAddressOrHostName
 ```
 
-### Manage your ssh identity
+## Manage your ssh identity
 
 activate your ssh-agent
 
@@ -1480,7 +1481,7 @@ add a ssh identity, for example your private key is of name id_rsa
 ssh-add id_rsa
 ```
 
-### change permission status of a file
+## change permission status of a file
 
 ```bash
 chmod someCode yourFile
@@ -1499,7 +1500,7 @@ chmod 700 -R ~/.ssh
 chmod 400 ~/.ssh/id_rsa   ## assuming id_rsa is your private key
 ```
 
-### Change Ownership of a file
+## Change Ownership of a file
 
 ```bash
 chown new-owner  filename
@@ -1508,7 +1509,7 @@ chown new-owner  filename
 new-owner: Specifies the user name or UID of the new owner of the file or directory.  
 filename: Specifies the file or directory.
 
-### File Transfer
+## File Transfer
 
 Copy LocalFile to your remoteDestination
 
@@ -1518,12 +1519,12 @@ scp LocalFile RemoteDestinationFolder
 
 Sometimes File Transfer may fail because perssion denied. You need to change ownership of the file.
 
-### Activate and shut down your root power* (Caution, don't do this if you don't know why root power is dangerous.)
+## Activate and shut down your root power* (Caution, don't do this if you don't know why root power is dangerous.)
 
 Activate: use `sudo su -`
 Shut down: use `exit` or `logout`
 
-### Check processes
+## Check processes
 
 check all processes
 
@@ -1535,6 +1536,9 @@ check processes with keyword, for example: *agent*.
 
 ```bash
 ps aux | grep agent
+
+#Alternatively, directly get process ID
+pgrep agent
 ```
 
 kill process
@@ -1543,7 +1547,7 @@ kill process
 kill taskID
 ```
 
-### Getting file from web on Linux Server
+## Getting file from web on Linux Server
 
 First, install *wget* using  `yum install wget` or `sudo apt-get install wget`.
 
@@ -1556,9 +1560,9 @@ wget yourUrl
 One tip for getting url from a masked hyperlink like [this] on graphical user interface:
 right click the text and select 'Copy link address'.
 
-### compress and decompress files
+## compress and decompress files
 
-#### tar files
+### tar files
 
 List the contents of a tar file:
 
@@ -1602,7 +1606,7 @@ Create an gzipped tar Archive for a folder :
 tar -czf archive.tar.gz mydir/
 ```
 
-#### gzip files
+### gzip files
 
 decompress a file
 
@@ -1619,7 +1623,7 @@ gzip -2 someFile
 gzip -9 someFile
 ```
 
-### Adding a PATH variable
+## Adding a PATH variable
 
 Sometimes when you install a new software, you need to add a new PATH variable to your environment so that you can call the new software easily.
 
@@ -1644,16 +1648,16 @@ and debug ~/.bashrc file using vim.
 vim ~/.bashrc
 ```
 
-### Learn to use vim
+## Learn to use vim
 
 Open bash and type:
 
 ```bash
 vimtutor
 ```
-### crontab
+## crontab
 
-#### run python script in crontab
+### run python script in crontab
 
 *VERY IMPORTANT!*
 
@@ -1670,13 +1674,13 @@ Copy and paste the path, and run python in crontab like this:
 * * * * * nohup copiedPathToPython YourAbsolutePathToScript  >> /home/yourUserName/cron_lab.log 2>&1
 ```
 
-#### run python in crontab with characters other than English
+### run python in crontab with characters other than English
 For example, if you have Chinese character in your python script, you need to
 include ` # -*- coding: utf-8 -*-` at the top of python script. 
 
 
 
-### Set your sudo password feedback visible in *
+## Set your sudo password feedback visible in *
 
 ```bash
 sudo visudo
@@ -1691,6 +1695,9 @@ Now refresh and test.
 sudo -k
 sudo ls
 ```
+
+# <a name="Network-Analysis"></a> Network Analysis
+
 
 
 
