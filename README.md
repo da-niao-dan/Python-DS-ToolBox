@@ -1655,6 +1655,15 @@ Open bash and type:
 ```bash
 vimtutor
 ```
+
+## file editing
+
+modify table using cut.
+```bash
+cut -d ' ' -f 1-10 orginal_filename > filename.
+```
+
+
 ## crontab
 
 ### run python script in crontab
