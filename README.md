@@ -5,7 +5,7 @@ Python Data Science Toolbox
 ## What is this note book about
 
 This is my personal open notebook for Data Science in Python. Its target is people who have no or little experience in Data Science.
-Unlike many books, this notebook is quite short and superficial. It covers major steps of doing simple data analysis.
+Unlike many books, this notebook is quite superficial. It covers major steps of doing simple data analysis.
 These are simple examples for performing the tasks. Always consult documents, or google when using the functions if you have any doubt.
 I learnt the those tools from many sources, welcome to browse and edit this notebook.
 This notebook is just a **remainder for what is available out there**. It does not offer any mathematical or technical or business details.
@@ -53,7 +53,8 @@ There are many great sources to learn Data Science, and here are some advice to 
 6. [Git](#Git)
 7. [Linux and Bash shells](#Linux-and-Bash-shells)
 8. [Network Analysis](#Network-Analysis)
-9. Others
+9. [PySpark](#PySpark)
+10. Others
     * Efficient Coding in Python
     * Data Structure and Algorithms
     * Parallel and Cloud Computing with Spark technologies
@@ -278,8 +279,6 @@ Then, Convert them into suitable types.
 
 Finally, take a look at unique values of each type.
 
- 
-
 ```python
 
 # Define the lambda function: categorize_label
@@ -470,7 +469,6 @@ plt.show()
 Use previous analysis to find intrinsic dimension of the dataset, then specify the number of dimensions to keep in the following PCA dimension reduction.
 Finally, PCA for feature dimension reduction.
 
-
 ```python
 # When the matrices are not sparse
 # Import PCA
@@ -487,6 +485,7 @@ pca_features = pca.transform(scaled_samples)
 
 # Print the shape of pca_features
 print(pca_features.shape)
+
 ```
 Let's consider a more detailed example: clustering documents
 
@@ -657,7 +656,6 @@ Use Pearson's chi-sqaured test. Higher chi2 statistics, lower pval, indicate hig
 ```python
 sklearn.feature_selection.chi2(X, y)
 ```
-
 
 ## <a name="Communicating-with-Data"></a> Communicating with Data
 
@@ -907,7 +905,6 @@ curdoc().add_root(layout)
 
 ## <a name="Data-Models"></a> Data Models
 
-
 ### Use sklearn Pipelines
 
 Example from a task to do supervised learning using both text and numeric data.
@@ -993,13 +990,10 @@ inertias = []
 for k in ks:
     # Create a KMeans instance with k clusters: model
     model = KMeans(n_clusters=k)
-    
     # Fit model to samples
     model.fit(samples)
-    
     # Append the inertia to the list of inertias
     inertias.append(model.inertia_)
-    
 # Plot ks vs inertias
 plt.plot(ks, inertias, '-o')
 plt.xlabel('number of clusters, k')
@@ -1007,7 +1001,6 @@ plt.ylabel('inertia')
 plt.xticks(ks)
 plt.show()
 ```
-
 
 Exam Classification with crosstabulation if labels exist.
 
@@ -1075,10 +1068,10 @@ print(ct)
 
 ```
 
-
 ### Supervised Learning
 
 #### Ensemble Learning
+
 Ensemble Learning is often used to combine models.
 
 First, let's see the Hard Voting Classifier.
@@ -1100,17 +1093,13 @@ dt = DecisionTreeClassifier(min_samples_leaf=0.13, random_state=SEED)
 classifiers = [('Logistic Regression', lr), ('K Nearest Neighbours', knn), ('Classification Tree', dt)]
 
 # Iterate over the pre-defined list of classifiers
-for clf_name, clf in classifiers:    
- 
+for clf_name, clf in classifiers:
     # Fit clf to the training set
-    clf.fit(X_train, y_train)    
-   
+    clf.fit(X_train, y_train)
     # Predict y_pred
     y_pred = clf.predict(X_test)
-    
     # Calculate accuracy
-    accuracy = accuracy_score(y_test, y_pred) 
-   
+    accuracy = accuracy_score(y_test, y_pred)
     # Evaluate clf's accuracy on the test set
     print('{:s} : {:.3f}'.format(clf_name, accuracy))
 
@@ -1118,10 +1107,10 @@ for clf_name, clf in classifiers:
 from sklearn.ensemble import VotingClassifier
 
 # Instantiate a VotingClassifier vc
-vc = VotingClassifier(estimators=classifiers)     
+vc = VotingClassifier(estimators=classifiers)
 
 # Fit vc to the training set
-vc.fit(X_train, y_train)   
+vc.fit(X_train, y_train)
 
 # Evaluate the test set predictions
 y_pred = vc.predict(X_test)
@@ -1168,7 +1157,6 @@ print('Test set accuracy: {:.3f}, OOB accuracy: {:.3f}'.format(acc_test, acc_oob
 
 Third, random forests. In Bagging, base estimators can be anything. Random forests use only decision trees. Similar to Bagging, each estimator is trained on a different bootstrap sample (same size as the training set). Unlike Bagging, RF introduces further randomization by sampling features at each node without replacement.
 
-
 ```python
 # Import RandomForestRegressor
 from sklearn.ensemble import RandomForestRegressor
@@ -1176,9 +1164,9 @@ from sklearn.ensemble import RandomForestRegressor
 # Instantiate rf
 rf = RandomForestRegressor(n_estimators=25,
             random_state=2)
-            
-# Fit rf to the training set    
-rf.fit(X_train, y_train) 
+
+# Fit rf to the training set
+rf.fit(X_train, y_train)
 
 # Import mean_squared_error as MSE
 from sklearn.metrics import mean_squared_error as MSE
@@ -1209,7 +1197,9 @@ plt.show()
 Forth, Boosting. Many week predictors trained in sequence, each learn errors from before. Unlike RF, Boosting trees are in sequence not independent of each other.
 
 AdaBoost.
+
 ```python
+
 # Import DecisionTreeClassifier
 from sklearn.tree import DecisionTreeClassifier
 
@@ -1240,14 +1230,13 @@ print('ROC AUC score: {:.2f}'.format(ada_roc_auc))
 
 Gradient Boosting. Like adaBoost, estimators are trained in sequence, each trying to correct the previous errors. While AdaBoost change weights of samples in training sequence, Gradient Boosting use weighted residuals during the sequence training process.
 
-
 ```python
 
 # Import GradientBoostingRegressor
 from sklearn.ensemble import GradientBoostingRegressor
 
 # Instantiate gb
-gb = GradientBoostingRegressor(max_depth=4, 
+gb = GradientBoostingRegressor(max_depth=4,
             n_estimators=200,
             random_state=2)
 
@@ -1283,10 +1272,10 @@ Stochastic Gradient Boosting. *Each tree is trained on a random subset of rows o
 from sklearn.ensemble import GradientBoostingRegressor
 
 # Instantiate sgbr
-sgbr = GradientBoostingRegressor(max_depth=4, 
+sgbr = GradientBoostingRegressor(max_depth=4,
             subsample=0.9,
             max_features=0.75,
-            n_estimators=200,                                
+            n_estimators=200,
             random_state=2)
 # Fit sgbr to the training set
 sgbr.fit(X_train,y_train)
@@ -1307,9 +1296,10 @@ rmse_test = mse_test ** 0.5
 print('Test set RMSE of sgbr: {:.3f}'.format(rmse_test))
 ```
 
-#### Hyperparameter Tuning.
+#### Hyperparameter Tuning
 
 General Approaches:
+
 * Grid Search
 * Random Search
 * Bayesian Optimization
@@ -1319,6 +1309,7 @@ General Approaches:
 We first discuss grid search.
 
 Grid Search:
+
 * Manually set a grid of discrete hyperparameter values.
 * Set a metric for scoring model performance
 * Search exhaustively through the grid.
@@ -1326,6 +1317,7 @@ Grid Search:
 * The optimal hyperparameters are those of the model achieving the best CV score.
 
 Let's tune a CART.
+
 ```python
 # dt is a tree
 # check hyper-parameters
@@ -1383,7 +1375,7 @@ grid_rf = GridSearchCV(estimator=rf,
                        n_jobs=-1)
 
 grid_rf.fit(X_train,y_train)
-# Import mean_squared_error from sklearn.metrics as MSE 
+# Import mean_squared_error from sklearn.metrics as MSE
 from sklearn.metrics import mean_squared_error as MSE
 
 # Extract the best estimator
@@ -1424,9 +1416,7 @@ model.fit(X,y,validation_split=0.3)
 
 ```
 
-
-
-# <a name="Git"></a>  Git
+# <a name="Git"> Git </a>
 
 There is a official git [guide](https://git-scm.com/). Use it as reference and install git according to it.
 
@@ -1455,8 +1445,7 @@ git push --set-upstream remoteNameHere branchNameHere ## If you run this once, l
 git push
 ```
 
-
-# <a name="Linux-and-Bash-shells"></a> Linux and Bash shells
+# <a name="Linux-and-Bash-shells">Linux and Bash shells</a> 
 
 Google *Basic Bash Commands* for pwd, cp, cd, ls, cat, vim, nano, >, mv, sudo, apt update, apt upgrade, apt intall, man, du, df  etc...
 
@@ -1659,10 +1648,11 @@ vimtutor
 ## file editing
 
 modify table using cut.
+
 ```bash
+
 cut -d ' ' -f 1-10 orginal_filename > filename.
 ```
-
 
 ## crontab
 
@@ -1672,11 +1662,14 @@ cut -d ' ' -f 1-10 orginal_filename > filename.
 
 Assume you have multiple versions of python installed on your computer.
 The first step is to locate your python executable file.
-Now activate the environment you want to use. 
+Now activate the environment you want to use.
 Type:
+
 ```bash
+
 which python
 ```
+
 Copy and paste the path, and run python in crontab like this:
 
 ```bash
@@ -1684,10 +1677,9 @@ Copy and paste the path, and run python in crontab like this:
 ```
 
 ### run python in crontab with characters other than English
+
 For example, if you have Chinese character in your python script, you need to
-include ` # -*- coding: utf-8 -*-` at the top of python script. 
-
-
+include `# -*- coding: utf-8 -*-` at the top of python script.
 
 ## Set your sudo password feedback visible in *
 
@@ -1705,10 +1697,10 @@ sudo -k
 sudo ls
 ```
 
-# <a name="Network-Analysis"></a> Network Analysis
-
+# <a name="Network-Analysis">Network Analysis</a> 
 
 ## Basic Analysis
+
 import NetworkX API and draw a preloaded Network.
 
 ```python
@@ -1777,6 +1769,7 @@ assert T.number_of_selfloops() == len(find_selfloop_nodes(T))
 ## Visualizing Networks
 
 Three important types:
+
 * Matrix plots
 * Arc plots
 * Circos plots
@@ -1832,9 +1825,6 @@ a2.draw()
 # Display the plot
 plt.show()
 ```
-
-
-
 
 Circos plot example:
 
@@ -2173,4 +2163,117 @@ nx.draw(T_sub)
 plt.show()
 
 ```
+
+# <a name="PySpark">PySpark</a> 
+
+When to work with Spark?
+Normally we just use pandas. However, pandas gets extremely slow when the datasets becomes larger.
+
+Before jumping to Spark, be clear about your purpose. If you just want to process several files with ~2GB size, and that they can be processed line by line without further calculations, you may want to go for line by line approach, because pandas becomes slow when Input-Output flow is large.
+
+If you need to perform more calculations or the size of tables gets to TB size or larger size, you may want to consider to use Spark!
+
+## First Impression of Spark
+
+Spark is a technology for parellel computing on clusters. I would like to think of it as pandas on clusters (very inaccurate analogy).
+Resilient Distributed Dataset is the basic building blocks in Spark. DataFrame is built upon RDD with built in optimizations when it comes to table operations. I would like to think of it as DataFame in pandas (again, just an analogy).
+
+PySpark reference is [here](http://spark.apache.org/docs/2.1.0/api/python/pyspark.html).
+
+To use spark in Python, you need to instantiate a SparkContext object in python. You can think of it as a connection to your control server of your cluster.
+Then you need to create a SparkSession, of which you can think as an interface to this connection.
+
+```python
+## Assume we have loaded a SparkSession called spark
+## Here we are going to practice how to create a SparkSession
+# Import SparkSession from pyspark.sql
+from pyspark.sql import SparkSession
+
+# Create my_spark
+my_spark = SparkSession.builder.getOrCreate()
+
+# Print
+print(my_spark)
+```
+
+From now on let's assume spark stands for SparkSession NOT A SparkContext anymore. Just a naming stuff.
+Your SparkSession has an attribute called catalog with lists of all data inside the session on your cluster. There are several methods to get information.
+For example:
+
+```python
+# Print the tables in the catalog
+print(spark.catalog.listTables())
+```
+
+Amazingly, you can quey tables in spark sessions like datasets in sql databases.
+
+```python
+# Assume a table of flights is shown in your catalog
+query = "FROM flights SELECT * LIMIT 10"
+
+# Get the first 10 rows of flights, flights10 will be a DataFrame
+flights10 = spark.sql(query)
+
+# Show the results
+flights10.show()
+```
+
+You can convert spark DataFrames to pandas DataFrames and work on it locally:
+
+```python
+# Example query
+query = "SELECT origin, dest, COUNT(*) as N FROM flights GROUP BY origin, dest"
+
+# Run the query
+flight_counts = spark.sql(query)
+
+# Convert the results to a pandas DataFrame
+pd_counts = flight_counts.toPandas()
+
+# Print the head of pd_counts
+print(pd_counts.head())
+```
+
+Convert a pandas DataFrame to a spark DataFrame and (not automatically but after some action) work on clusters!
+
+```python
+# Create pd_temp
+pd_temp = pd.DataFrame(np.random.random(10))
+
+# Create spark_temp from pd_temp
+spark_temp = spark.createDataFrame(pd_temp)
+
+# Examine the tables in the catalog
+print(spark.catalog.listTables())
+
+# Add spark_temp to the catalog, register it using name "temp", createOrReplaceTempView garantees your table names are not duplicates, it will update existing table if exists.
+spark_temp.createOrReplaceTempView("temp")
+
+# Examine the tables in the catalog again
+print(spark.catalog.listTables())
+```
+
+Without working with pandas, let's load the data directly.
+
+```python
+# Take an example
+file_path = "/usr/local/share/datasets/airports.csv"
+
+# Read in the airports data
+airports = spark.read.csv(file_path,header=True)
+
+# Show the data
+airports.show()
+```
+
+## Manipulating Data
+
+From now on, we have to recognize the unique functionalities of Spark. Forget about pandas dataframes, because those intuitions are not helpful anymore.
+
+Column is an Object type in Spark, and it can be created by `df.colName`.
+
+Unlike pandas DataFrame, Spark DataFrame is immutable, meaning you cannot change columns in place.
+
+To add new column generated by some operation on old column to a df you do something like this: `df=df.withColumn("newCol", df.oldCol + 1)`.
+To replace an old column you do this:`df=df.withColumn("oldCol", df.oldCol + 1)`.
 
