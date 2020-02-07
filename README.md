@@ -2553,23 +2553,106 @@ spark.stop()
 
 DataFrame:
 Select Methods:
+
 * count()
 * show()
 * printSchema()
 
 Selected attributes:
+
 * dtypes
 
-Reading data from csv: `cars = spark.read.csv("cars.csv",header=True)`
-This action can have problems. We may prefer `cars = spark.read.csv("cars.csv", header=True, inferSchema=True)`
-
-cars.dtypes
-
+Reading data from csv: `cars = spark.read.csv("cars.csv",header=True)
 Optional arguments:
+
 * header
 * sep
 * schema - explicit column data types
 * inferSchema - deduce column data types?
 * nullValue -placeholder for missing data
 
+This action can have problems. We may prefer `cars = spark.read.csv("cars.csv", header=True, inferSchema=True, nullValue='NA')` (Always good to explicitly define missing values.)
 
+check `cars.dtypes` to show datatypes of each column. It turns out, columns with missing data will have 'NA' string, that column will be wrongly interpretated as String column.
+
+In that case, we need to specify the schema by hand.
+
+```python
+# Read data from CSV file
+flights = spark.read.csv('flights.csv',
+                         sep=',',
+                         header=True,
+                         inferSchema=True,
+                         nullValue='NA')
+
+# Get number of records
+print("The data contain %d records." % flights.count())
+
+# View the first five records
+flights.show(5)
+
+# Check column data types
+flights.dtypes
+
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType
+
+# Specify column names and types
+schema = StructType([
+    StructField("id", IntegerType()),
+    StructField("text", StringType()),
+    StructField("label", IntegerType())
+])
+
+# Load data from a delimited file
+sms = spark.read.csv('sms.csv', sep=';', header=False, schema=schema)
+
+# Print schema of DataFrame
+sms.printSchema()
+```
+
+### Details about manipulating data
+
+Data selection
+
+```python
+
+# Either drop the columns you don't want
+cars = cars.drop('maker','model')
+
+# ... or select the columns you do want
+cars = cars.select("origin", 'type', 'cyl')
+
+# Filtering out missing vals
+## count
+cars.filter('cyl is NULL').count()
+
+## drop records with missing values in the cylinders column
+cars = cars.filter('cyl IS NOT NULL')
+
+## drop records with any missing data
+cars = cars.dropna()
+```
+
+Index categorical data.
+
+```python
+from pyspark.ml.feature import StringIndexer
+
+indexer = StringIndexer(inputCol='type',outputCol='type_idx')
+
+# Assign index values to strings
+indexer = StringIndexer(inputCol= 'type',
+                        outputCol='type_idx')
+
+# Assign index values to strings
+indexer = indexer.fit(cars)
+
+# Create column with index values
+cars = indexer.transform(cars)
+```
+
+By defaults the most frequent string will get index 0, and the  least frequent string will get the maximum index.
+
+Use `stringOrderType` to change order.
+
+Assembling cobv ][-=]
