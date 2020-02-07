@@ -2529,3 +2529,47 @@ test_results = best_lr.transform(test)
 # Evaluate the predictions
 print(evaluator.evaluate(test_results))
 ```
+
+### Details about Creating a SparkSession
+
+```python
+# Import the PySpark module
+from pyspark.sql import SparkSession
+
+# Create SparkSession object
+spark = SparkSession.builder \
+                    .master('local[*]') \ ## To connect to a remote location, use: spark://<IP address | DNS name>:<port>
+                    .appName('test') \
+                    .getOrCreate()
+
+# What version of Spark?
+print(spark.version)
+
+# Terminate the cluster
+spark.stop()
+```
+
+### Details about loading data into Spark
+
+DataFrame:
+Select Methods:
+* count()
+* show()
+* printSchema()
+
+Selected attributes:
+* dtypes
+
+Reading data from csv: `cars = spark.read.csv("cars.csv",header=True)`
+This action can have problems. We may prefer `cars = spark.read.csv("cars.csv", header=True, inferSchema=True)`
+
+cars.dtypes
+
+Optional arguments:
+* header
+* sep
+* schema - explicit column data types
+* inferSchema - deduce column data types?
+* nullValue -placeholder for missing data
+
+
