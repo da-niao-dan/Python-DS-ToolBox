@@ -124,6 +124,13 @@ On Mac VScode bash, when you try to connect to a host with alias instead of IP, 
 
 Follow this [guide](https://code.visualstudio.com/docs/remote/remote-overview).
 
+
+### Alternative Developing Environment on Vim
+
+My current choice of working environment for python is vim.
+Check this [guide](https://realpython.com/vim-and-python-a-match-made-in-heaven/).
+
+
 ## <a name="Data-Processing"></a> Data Processing
 
 ### Getting Data
