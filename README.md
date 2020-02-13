@@ -130,35 +130,9 @@ Follow this [guide](https://code.visualstudio.com/docs/remote/remote-overview).
 This is for advanced user only. Ignore this if you are not comfortable with vim and git yet.
 
 My current choice of working environment for python is vim.
-Check this [guide](https://realpython.com/vim-and-python-a-match-made-in-heaven/).
+Check this [guide](https://realpython.com/vim-and-python-a-match-made-in-heaven/). For the installation vim part, follow this [guide](https://github.com/ycm-core/YouCompleteMe/wiki/Building-Vim-from-source).
 
-Assume we are using Ubuntu 18.04. Assume you get python installed.
-First, remove old vim:
 
-```bash
-sudo apt remove vim vim-runtime gvim
-```
-
-Then download latest vim and some other necessary packages:
-
-```bash
-cd ~
-git clone https://github.com/vim/vim.git
-sudo apt-get install libncurses5-dev
-cd ~/vim/
-./configure --with-features=huge \
-            --enable-multibyte \
-            --enable-rubyinterp=no \
-            --enable-python3interp=yes \
-            --with-python3-config-dir=$(python3-config --configdir) \
-            --enable-perlinterp=yes \
-            --enable-luainterp=yes \
-            --enable-gui=gtk2 \
-            --enable-cscope \
-            --prefix=/usr/local
-sudo apt install checkinstall
-sudo checkinstall
-```
 
 
 ## <a name="Data-Processing"></a> Data Processing
