@@ -129,13 +129,14 @@ Follow this [guide](https://code.visualstudio.com/docs/remote/remote-overview).
 
 This is for advanced user only. Ignore this if you are not comfortable with vim and git yet.
 
-My current choice of working environment for python is vim.
 Check this [guide](https://realpython.com/vim-and-python-a-match-made-in-heaven/). For the installation vim part, follow this [guide](https://github.com/ycm-core/YouCompleteMe/wiki/Building-Vim-from-source).
 If further bug persists, check this [guide](https://vim.fandom.com/wiki/Building_Vim). Even at this level, I strongly suggest you to install it by system default manager if possible. (On Ubuntu, this is apt-get) Building vim yourself may invoke complicated bugs that no one will help to to fix in short time.
 
 Check this github page for [awsome-setup](https://github.com/amix/vimrc) by very experienced users. Check this for vim python [IDE](https://github.com/jarolrod/vim-python-ide).
 
 You may need a lot of basic tools (that others may need them as well) during your career. The most essential rule is to try to search for existing build or configurations before your own. The same rule applies to python packages, vim-python IDE setups etc. A good source is github.
+
+My current choice of Environment Setup is using Jupyter lab as Interface. Notebooks for explorations and testings. vim in jupyter lab consoles for editting python scripts.
 
 ## <a name="Data-Processing"></a> Data Processing
 
