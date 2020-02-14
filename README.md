@@ -2659,3 +2659,18 @@ By defaults the most frequent string will get index 0, and the  least frequent s
 Use `stringOrderType` to change order.
 
 Assembling cobv ][-=]
+
+
+# Editting Tools
+
+## Vim
+
+Check [this](https://github.com/amix/vimrc) out for vim configurations.
+Do explore these configurations. 
+In addition, you can make your own customizations.
+For example, check these [snippets](https://github.com/honza/vim-snippets) out for autocompletion of texts.
+
+## LaTeX
+
+First you need to install a version of LaTeX compiler and pdf viewer.
+Then you goodle "vim latex" for beginning editting latex through vim, following countless good guides out there.
