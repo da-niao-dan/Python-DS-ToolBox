@@ -71,7 +71,7 @@ Manage of version control and collaboration: Use *git* for personal projects, Us
 
 Google or bing these keywords to find revelvant tutorials. This will be the last reminder of such actions.
 
-### Prototyping Environment: conda environment quick set up with python jupyter notebook
+### Conda environment quick set up with python Jupyter Lab
 
 Save environment to a text ﬁle.
 
@@ -90,6 +90,8 @@ Create environment from a text ﬁle.
 ```bash
 conda env create --file bio-env.txt nameHere
 ```
+
+Using Jupyter Lab with a bash shell and [vim-Plugin](https://github.com/jwkvam/jupyterlab-vim) is my current setup.
 
 ### Local Developing Environment setup: VScode with WSL
 
@@ -124,19 +126,6 @@ On Mac VScode bash, when you try to connect to a host with alias instead of IP, 
 
 Follow this [guide](https://code.visualstudio.com/docs/remote/remote-overview).
 
-
-### Alternative Developing Environment on Vim
-
-This is for advanced user only. Ignore this if you are not comfortable with vim and git yet.
-
-Check this [guide](https://realpython.com/vim-and-python-a-match-made-in-heaven/). For the installation vim part, follow this [guide](https://github.com/ycm-core/YouCompleteMe/wiki/Building-Vim-from-source).
-If further bug persists, check this [guide](https://vim.fandom.com/wiki/Building_Vim). Even at this level, I strongly suggest you to install it by system default manager if possible. (On Ubuntu, this is apt-get) Building vim yourself may invoke complicated bugs that no one will help to to fix in short time.
-
-Check this github page for [awsome-setup](https://github.com/amix/vimrc) by very experienced users. Check this for vim python [IDE](https://github.com/jarolrod/vim-python-ide).
-
-You may need a lot of basic tools (that others may need them as well) during your career. The most essential rule is to try to search for existing build or configurations before your own. The same rule applies to python packages, vim-python IDE setups etc. A good source is github.
-
-My current choice of Environment Setup is using Jupyter lab as Interface. Notebooks for explorations and testings. vim in jupyter lab consoles for editting python scripts.
 
 ## <a name="Data-Processing"></a> Data Processing
 
