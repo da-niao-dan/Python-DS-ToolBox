@@ -1554,6 +1554,13 @@ right click the text and select 'Copy link address'.
 
 ## compress and decompress files
 
+### zip
+
+Although tar is the mainstream, sometimes you need to zip files.
+
+Check this [guide](https://linuxize.com/post/how-to-zip-files-and-directories-in-linux/).
+
+
 ### tar files
 
 List the contents of a tar file:
@@ -2565,7 +2572,7 @@ Selected attributes:
 
 * dtypes
 
-Reading data from csv: `cars = spark.read.csv("cars.csv",header=True)
+Reading data from csv: `cars = spark.read.csv("cars.csv",header=True)`
 Optional arguments:
 
 * header
