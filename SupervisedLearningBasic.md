@@ -1,6 +1,8 @@
-### Supervised Learning
+# Supervised Learning
 
-#### Ensemble Learning
+## Ensemble Learning
+
+### Prototyping
 
 Ensemble Learning is often used to combine models.
 
@@ -226,7 +228,7 @@ rmse_test = mse_test ** 0.5
 print('Test set RMSE of sgbr: {:.3f}'.format(rmse_test))
 ```
 
-#### Hyperparameter Tuning
+### Hyperparameter Tuning
 
 General Approaches:
 
@@ -320,7 +322,6 @@ rmse_test = MSE(y_test,y_pred) ** (1/2)
 # Print rmse_test
 print('Test RMSE of best model: {:.3f}'.format(rmse_test))
 ```
-
 
 ### Use sklearn Pipelines
 

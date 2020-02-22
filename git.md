@@ -1,4 +1,3 @@
-
 # <a name="Git"> Git </a>
 
 There is a official git [guide](https://git-scm.com/). Use it as reference and install git according to it.

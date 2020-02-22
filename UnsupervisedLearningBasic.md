@@ -1,9 +1,9 @@
 
-### Unsupervised Learning
+# Unsupervised Learning
 
-#### Clustering
+We discuss maily about Clustering in this short demonstration.
 
-##### K-means
+## K-means
 
 Quick implementation
 
@@ -92,9 +92,9 @@ print(ct)
 
 To optimize, try Standardize features and use pipelines.
 
-##### Hierarchical clustering
+## Hierarchical clustering
 
-###### agglomerative hierarchical clustering
+### agglomerative hierarchical clustering
 
 Dendrograms plotting.
 

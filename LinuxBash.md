@@ -1,30 +1,54 @@
 
-# <a name="Linux-and-Bash-shells">Linux and Bash shells</a> 
+# <a name="Linux-and-Bash-shells">Linux and Bash shells</a>
 
-Google *Basic Bash Commands* for pwd, cp, cd, ls, cat, vim, nano, >, mv, sudo, apt update, apt upgrade, apt intall, man, du, df  etc...
+Google *Basic Bash Commands* for pwd, cp, cd, ls, cat, vim, nano, touch, >, mv, sudo, apt update, apt upgrade, apt intall, man, du, df  etc...
 
-## Login to a server
+## System Configurations
 
-```bash
-ssh -A yourAccountName@ipAddressOrHostName
-```
-
-## Manage your ssh identity
-
-activate your ssh-agent
+### Set your sudo password feedback visible in *
 
 ```bash
-eval $(ssh-agent -s)
-
+sudo visudo
 ```
 
-add a ssh identity, for example your private key is of name id_rsa
+find the line with 'Defaults env_reset', change it to 'Defaults env_reset,pwfeedback'.
+
+save the file.
+Now refresh and test.
 
 ```bash
-ssh-add id_rsa
+sudo -k
+sudo ls
 ```
 
-## change permission status of a file
+### Adding a PATH variable
+
+Sometimes when you install a new software, you need to add a new PATH variable to your environment so that you can call the new software easily.
+
+First you can run the following two lines:
+
+```bash
+PATH=YourPathToTheFolderOfTheNewSoftware:$PATH
+export PATH
+```
+
+Then you can include these two lines in your ~/.bashrc file.
+
+Sometimes you messed up the PATH variable by messed up ~/.bashrc file, (you find yourself cannot use ls or vim commands), relax, just run
+
+```bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+```
+
+and debug ~/.bashrc file using vim.
+
+```bash
+vim ~/.bashrc
+```
+
+## File Management
+
+### Change Permission Status of a File
 
 ```bash
 chmod someCode yourFile
@@ -43,7 +67,7 @@ chmod 700 -R ~/.ssh
 chmod 400 ~/.ssh/id_rsa   ## assuming id_rsa is your private key
 ```
 
-## Change Ownership of a file
+### Change Ownership of a File
 
 ```bash
 chown new-owner  filename
@@ -52,67 +76,15 @@ chown new-owner  filename
 new-owner: Specifies the user name or UID of the new owner of the file or directory.  
 filename: Specifies the file or directory.
 
-## File Transfer
+### File Compression and Decompression
 
-Copy LocalFile to your remoteDestination
-
-```bash
-scp LocalFile RemoteDestinationFolder
-```
-
-Sometimes File Transfer may fail because perssion denied. You need to change ownership of the file.
-
-## Activate and shut down your root power* (Caution, don't do this if you don't know why root power is dangerous.)
-
-Activate: use `sudo su -`
-Shut down: use `exit` or `logout`
-
-## Check processes
-
-check all processes
-
-```bash
-ps aux
-```
-
-check processes with keyword, for example: *agent*.
-
-```bash
-ps aux | grep agent
-
-#Alternatively, directly get process ID
-pgrep agent
-```
-
-kill process
-
-```bash
-kill taskID
-```
-
-## Getting file from web on Linux Server
-
-First, install *wget* using  `yum install wget` or `sudo apt-get install wget`.
-
-Then type:
-
-```bash
-wget yourUrl
-```
-
-One tip for getting url from a masked hyperlink like [this] on graphical user interface:
-right click the text and select 'Copy link address'.
-
-## compress and decompress files
-
-### zip
+#### zip
 
 Although tar is the mainstream, sometimes you need to zip files.
 
 Check this [guide](https://linuxize.com/post/how-to-zip-files-and-directories-in-linux/).
 
-
-### tar files
+#### tar files
 
 List the contents of a tar file:
 
@@ -156,7 +128,7 @@ Create an gzipped tar Archive for a folder :
 tar -czf archive.tar.gz mydir/
 ```
 
-### gzip files
+#### gzip files
 
 decompress a file
 
@@ -173,51 +145,88 @@ gzip -2 someFile
 gzip -9 someFile
 ```
 
-## Adding a PATH variable
+## Exchanging Data
 
-Sometimes when you install a new software, you need to add a new PATH variable to your environment so that you can call the new software easily.
-
-First you can run the following two lines:
+### Login to a server
 
 ```bash
-PATH=YourPathToTheFolderOfTheNewSoftware:$PATH
-export PATH
+ssh -A yourAccountName@ipAddressOrHostName
 ```
 
-Then you can include these two lines in your ~/.bashrc file.
+### Manage your ssh identity
 
-Sometimes you messed up the PATH variable by messed up ~/.bashrc file, (you find yourself cannot use ls or vim commands), relax, just run
+activate your ssh-agent
 
 ```bash
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+eval $(ssh-agent -s)
+
 ```
 
-and debug ~/.bashrc file using vim.
+add a ssh identity, for example your private key is of name id_rsa
 
 ```bash
-vim ~/.bashrc
+ssh-add id_rsa
 ```
 
-## Learn to use vim
+### Activate and shut down your root power
 
-Open bash and type:
+Activate: use `sudo su -`
+Shut down: use `exit` or `logout`
+You can also use exit or logout to quit a ssh connection to a server.
+
+### Getting file from web on Linux Server
+
+First, install *wget* using  `yum install wget` or `sudo apt-get install wget`.
+
+Then type:
 
 ```bash
-vimtutor
+wget yourUrl
 ```
 
-## file editing
+One tip for getting url from a masked hyperlink like [this] on graphical user interface:
+right click the text and select 'Copy link address'.
 
-modify table using cut.
+### File Transfer
+
+Copy LocalFile to your remoteDestination
 
 ```bash
-
-cut -d ' ' -f 1-10 orginal_filename > filename.
+scp LocalFile RemoteDestinationFolder
 ```
 
-## crontab
+Sometimes File Transfer may fail because perssion denied. You need to change ownership of the file.
 
-### run python script in crontab
+## Task Management
+
+### Check processes
+
+check all processes
+
+```bash
+ps aux
+```
+
+check processes with keyword, for example: *agent*.
+
+```bash
+ps aux | grep agent
+
+#Alternatively, directly get process ID
+pgrep agent
+```
+
+kill process
+
+```bash
+kill taskID
+```
+
+### crontab
+
+To schedule a task, you can google and use crontab command on Linux.
+
+#### run python script in crontab
 
 *VERY IMPORTANT!*
 
@@ -237,24 +246,7 @@ Copy and paste the path, and run python in crontab like this:
 * * * * * nohup copiedPathToPython YourAbsolutePathToScript  >> /home/yourUserName/cron_lab.log 2>&1
 ```
 
-### run python in crontab with characters other than English
+#### run python in crontab with characters other than English
 
 For example, if you have Chinese character in your python script, you need to
 include `# -*- coding: utf-8 -*-` at the top of python script.
-
-## Set your sudo password feedback visible in *
-
-```bash
-sudo visudo
-```
-
-find the line with 'Defaults env_reset', change it to 'Defaults env_reset,pwfeedback'.
-
-save the file.
-Now refresh and test.
-
-```bash
-sudo -k
-sudo ls
-```
-

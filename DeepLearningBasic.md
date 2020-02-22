@@ -1,7 +1,7 @@
 
 # Deep Learning
 
-Keras short example.
+Keras short example of a DNN.
 
 ```python
 # Create the model: model

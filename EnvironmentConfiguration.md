@@ -1,14 +1,23 @@
-## <a name="Environment-Configuration"></a> Environment Configuration
+# <a name="Environment-Configuration"></a> Environment Configuration
 
-Choice of Working Environments: I recommend using *VScode* with remote *WSL* and *ssh on linux servers* for projects, while using *JupyterLab* for prototyping.
+My recommendations:
 
-Manage of python packages: I recommend *Anaconda* for this task. 
+* Use a bash shell
+    1. Linux and MacOS users have terminals embedded
+    2. For Windows users, intall WSL and VScode
+* Python package management
+    1. Anaconda
+    2. pip
+* Version contral
+    1. git (local version control)
+    2. git + Github (remote version control for open projects)
+    3. git + GitLab/BitBucket (remote version control for commercial projects)
+* Python prototyping
+    1. Jupyter Lab
 
-Manage of version control and collaboration: Use *git* for personal projects, Use *Github* for open projects, *GitLab* for industrial projects.
+I will give a bit more details about conda and VSCode with WSL.
 
-Google or bing these keywords to find revelvant tutorials. This will be the last reminder of such actions.
-
-### Conda environment quick set up with python Jupyter Lab
+## Conda
 
 Save environment to a text ﬁle.
 
@@ -28,9 +37,11 @@ Create environment from a text ﬁle.
 conda env create --file bio-env.txt nameHere
 ```
 
-Using Jupyter Lab with a bash shell and [vim-Plugin](https://github.com/jwkvam/jupyterlab-vim) is my current setup.
+Check out the conda cheatsheet available on official site.
 
-### Local Developing Environment setup: VScode with WSL
+Using Jupyter Lab with a bash shell and [vim-Plugin](https://github.com/jwkvam/jupyterlab-vim) is my current setup or prototyping.
+
+## VScode with WSL
 
 WSL is shorthand for Windows Subsystem for Linux, essentially, you can use linux working environment on Windows with ease. Install WSL according to this [guide](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 

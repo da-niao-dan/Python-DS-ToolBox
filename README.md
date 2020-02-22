@@ -44,10 +44,27 @@ There are many great sources to learn Data Science, and here are some advice to 
     * Interative Data Visualization
 
 5. [Basic Unsupervised Learning](UnsupervisedLearningBasic.md)
+    * K-means
+    * Hierarchical clustering
+
 6. [Basic Supervised Learning](SupervisedLearningBasic.md)
+    * Ensemble Learning
+        * Prototyping
+        * Hyperparameter Tuning
+        * Pipelining
+
 7. [Basic Deep Learning](DeepLearningBasic.md)
+    * a very short DNN example
+
 8. [Git](git.md)
+    * very common git operations
+
 9. [Linux and Bash shells](LinuxBash.md)
+    * System Configurations
+    * File Management
+    * Exchanging Data
+    * Task Management
+
 10. [Network Analysis](Network-Analysis.md)
 11. [PySpark](PySpark.md)
 12. [DeploymentTools](DeploymentTools.md)
