@@ -2681,3 +2681,8 @@ For example, check these [snippets](https://github.com/honza/vim-snippets) out f
 
 First you need to install a version of LaTeX compiler and pdf viewer.
 Then you goodle "vim latex" for beginning editting latex through vim, following countless good guides out there.
+
+# Deployment Tools
+
+## Docker
+
