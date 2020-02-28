@@ -41,6 +41,8 @@ Check out the conda cheatsheet available on official site.
 
 Using Jupyter Lab with a bash shell and [vim-Plugin](https://github.com/jwkvam/jupyterlab-vim) is my current setup or prototyping.
 
+Another word about miniconda vs conda. miniconda is a slim version of conda, and when you try to install some packages, the download might fail (at least in somegeographical position). I recommend using conda.
+
 ## VScode with WSL
 
 WSL is shorthand for Windows Subsystem for Linux, essentially, you can use linux working environment on Windows with ease. Install WSL according to this [guide](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
