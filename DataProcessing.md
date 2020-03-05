@@ -419,7 +419,7 @@ print(df.sort_values('label'))
 
 #### Non-negative matrix factorization
 
-Interpretable Dimension Reduction for non-negative arrays.33
+Interpretable Dimension Reduction for non-negative arrays.
 
 ```python
 # Perform the necessary imports
