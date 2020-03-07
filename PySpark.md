@@ -488,3 +488,177 @@ By defaults the most frequent string will get index 0, and the  least frequent s
 
 Use `stringOrderType` to change order.
 
+# Example with Classification
+Suppose you loaded a dataset named flights
+
+## Data cleaning
+### Removing columns and rows
+```python
+# Remove the 'flight' column
+flights = flights.drop('flight')
+
+# Number of records with missing 'delay' values
+flights.filter('delay IS NULL').count()
+
+# Remove records with missing 'delay' values
+flights = flights.filter('delay IS NOT NULL')
+
+# Remove records with missing values in any column and get the number of remaining rows
+flights = flights.dropna()
+print(flights.count())
+```
+### Column Manipulation
+
+```python
+# Import the required function
+from pyspark.sql.functions import round
+
+# Convert 'mile' to 'km' and drop 'mile' column
+flights_km = flights.withColumn('km', round(flights.mile * 1.60934, 0)) \
+                    .drop('mile')
+
+# Create 'label' column indicating whether flight delayed (1) or not (0)
+flights_km = flights_km.withColumn('label', (flights_km.delay>=15).cast('integer'))
+
+# Check first five records
+flights_km.show(5)
+```
+## Training and Testing Model
+### Train-Test Split
+```python
+# Split into training and testing sets in a 80:20 ratio
+flights_train, flights_test = flights.randomSplit([0.8,0.2], 17)
+
+# Check that training set has around 80% of records
+training_ratio = flights_train.count() / flights.count()
+print(training_ratio)
+```
+### Build a Decision Tree Classifier
+```python
+# Import the Decision Tree Classifier class
+from pyspark.ml.classification import DecisionTreeClassifier
+
+# Create a classifier object and fit to the training data
+tree = DecisionTreeClassifier()
+tree_model = tree.fit(flights_train)
+
+# Create predictions for the testing data and take a look at the predictions
+prediction = tree_model.transform(flights_test)
+prediction.select('label', 'prediction', 'probability').show(5, False)
+```
+### Evaluation
+```python
+# Create a confusion matrix
+prediction.groupBy('label', 'prediction').count().show()
+
+# Calculate the elements of the confusion matrix
+TN  = prediction.filter('prediction = 0 AND label = prediction').count()
+TP = prediction.filter('prediction=1 AND label = prediction').count()
+FN = prediction.filter('prediction=0 AND label!=prediction').count()
+FP = prediction.filter('prediction=1 AND label!=prediction').count()
+
+# Accuracy measures the proportion of correct predictions
+accuracy = (TN+TP)/(FN+FP+TN+TP)
+print(accuracy)
+```
+### Build a logistic regression classifier
+```python
+# Import the logistic regression class
+from pyspark.ml.classification import LogisticRegression
+
+# Create a classifier object and train on training data
+logistic = LogisticRegression().fit(flights_train)
+
+# Create predictions for the testing data and show confusion matrix
+prediction = logistic.transform(flights_test)
+prediction.groupBy('label', 'prediction').count().show()
+
+from pyspark.ml.evaluation import MulticlassClassificationEvaluator, BinaryClassificationEvaluator
+
+# Calculate precision and recall
+precision =TP/(TP+FP)
+recall = (TP)/(FN+TP)
+print('precision = {:.2f}\nrecall    = {:.2f}'.format(precision, recall))
+
+# Find weighted precision
+multi_evaluator = MulticlassClassificationEvaluator()
+weighted_precision = multi_evaluator.evaluate(prediction, {multi_evaluator.metricName: "weightedPrecision"})
+
+# Find AUC
+binary_evaluator = BinaryClassificationEvaluator()
+auc = binary_evaluator.evaluate(prediction, {binary_evaluator.metricName:"areaUnderROC"})
+
+```
+
+### Use text as features
+```python
+# Import the necessary functions
+from pyspark.sql.functions import regexp_replace
+from pyspark.ml.feature import Tokenizer
+
+# Remove punctuation (REGEX provided) and numbers
+wrangled = sms.withColumn('text', regexp_replace(sms.text, '[_():;,.!?\\-]', ' '))
+wrangled = wrangled.withColumn('text', regexp_replace(wrangled.text, '[0-9]', ' '))
+
+# Merge multiple spaces
+wrangled = wrangled.withColumn('text', regexp_replace(wrangled.text, ' +', ' '))
+
+# Split the text into words
+wrangled = Tokenizer(inputCol='text', outputCol='words').transform(wrangled)
+
+wrangled.show(4, truncate=False)
+
+from pyspark.ml.feature import StopWordsRemover, HashingTF, IDF
+
+# Remove stop words.
+wrangled = StopWordsRemover(inputCol='words', outputCol='terms')\
+      .transform(sms)
+
+# Apply the hashing trick
+wrangled = HashingTF(inputCol='terms', outputCol='hash', numFeatures=1024)\
+      .transform(wrangled)
+
+# Convert hashed symbols to TF-IDF
+tf_idf = IDF(inputCol='hash', outputCol='features')\
+      .fit(wrangled).transform(wrangled)
+      
+tf_idf.select('terms', 'features').show(4, truncate=False)
+```
+
+Now we are ready to include texts as features. rename tf_idf sms
+
+```python
+# Split the data into training and testing sets
+
+sms_train, sms_test = sms.randomSplit([0.8,0.2], 13)
+
+# Fit a Logistic Regression model to the training data
+logistic = LogisticRegression(regParam=0.2).fit(sms_train)
+
+# Make predictions on the testing data
+prediction = logistic.transform(sms_test)
+
+# Create a confusion matrix, comparing predictions to known labels
+prediction.groupBy('label', 'prediction').count().show()
+```
+
+However, it is not sensible to use index values for numerical calculations, that's why we need One-Hot Encoding.
+
+### One-Hot Encoding
+```python
+# Import the one hot encoder class
+from pyspark.ml.feature import OneHotEncoderEstimator
+
+# Create an instance of the one hot encoder
+onehot = OneHotEncoderEstimator(inputCols=['org_idx'], outputCols=['org_dummy'])
+
+# Apply the one hot encoder to the flights data
+onehot = onehot.fit(flights)
+flights_onehot = onehot.transform(flights)
+
+# Check the results
+flights_onehot.select('org', 'org_idx', 'org_dummy').distinct().sort('org_idx').show()
+```
+
+## Regression
+
