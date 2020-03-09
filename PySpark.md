@@ -662,3 +662,135 @@ flights_onehot.select('org', 'org_idx', 'org_dummy').distinct().sort('org_idx').
 
 ## Regression
 
+### Quick Example
+```python
+from pyspark.ml.regression import LinearRegression
+from pyspark.ml.evaluation import RegressionEvaluator
+
+# Create a regression object and train on training data
+regression = LinearRegression(labelCol='duration').fit(flights_train)
+
+# Create predictions for the testing data and take a look at the predictions
+predictions = regression.transform(flights_test)
+predictions.select('duration', 'prediction').show(5, False)
+
+# Calculate the RMSE
+RegressionEvaluator(labelCol='duration').evaluate(predictions)
+# Intercept (average minutes on ground)
+inter = regression.intercept
+print(inter)
+
+# Coefficients
+coefs = regression.coefficients
+print(coefs)
+
+# Average minutes per km
+minutes_per_km = coefs[0]
+print(minutes_per_km)
+
+# Average speed in km per hour
+avg_speed = 60/(minutes_per_km)
+print(avg_speed)
+
+```
+
+### Feature Engineering
+
+#### Bucketing
+
+Bucketing converges continous values into discrete categories.
+```python
+from pyspark.ml.feature import Bucketizer, OneHotEncoderEstimator
+
+# Create buckets at 3 hour intervals through the day
+buckets = Bucketizer(splits=[3*i for i in range(0,9)], inputCol = 'depart', outputCol = 'depart_bucket')
+
+# Bucket the departure times
+bucketed = buckets.transform(flights)
+bucketed.select('depart','depart_bucket').show(5)
+
+# Create a one-hot encoder
+onehot = OneHotEncoderEstimator(inputCols=['depart_bucket'],outputCols=['depart_dummy'])
+
+# One-hot encode the bucketed departure times
+flights_onehot = onehot.fit(bucketed).transform(bucketed)
+flights_onehot.select('depart','depart_bucket','depart_dummy').show(5)
+```
+After these, we use discrete features as usual.
+
+### Regularization
+
+Lasso - absolute value of the coeffients
+Ridge - square of the coefficients
+
+```python
+from pyspark.ml.regression import LinearRegression
+from pyspark.ml.evaluation import RegressionEvaluator
+
+# Fit Lasso model (α = 1) to training data, here alpha is param of elasticNetParam
+regression = LinearRegression(labelCol='duration', regParam=1, elasticNetParam=1).fit(flights_train)
+
+# Calculate the RMSE on testing data
+rmse = RegressionEvaluator(labelCol='duration').evaluate(regression.transform(flights_test))
+print("The test RMSE is", rmse)
+
+# Look at the model coefficients
+coeffs = regression.coefficients
+print(coeffs)
+
+# Number of zero coefficients
+zero_coeff = sum([beta==0 for beta in regression.coefficients])
+print("Number of ceofficients equal to 0:", zero_coeff)
+```
+
+## Pipeline
+
+```python
+# Convert categorical strings to index values
+indexer = StringIndexer(inputCol='org',outputCol='org_idx')
+
+# One-hot encode index values
+onehot = OneHotEncoderEstimator(
+    inputCols = ['org_idx','dow'],
+    outputCols = ['org_dummy','dow_dummy']
+)
+
+# Assemble predictors into a single column
+assembler = VectorAssembler(inputCols=['km','org_dummy','dow_dummy'], outputCol='features')
+
+# A linear regression object
+regression = LinearRegression(labelCol='duration')
+
+# Import class for creating a pipeline
+from pyspark.ml import Pipeline
+
+# Construct a pipeline
+pipeline = Pipeline(stages=[indexer,onehot,assembler,regression])
+
+# Train the pipeline on the training data
+pipeline = pipeline.fit(flights_train)
+
+# Make predictions on the testing data
+predictions = pipeline.transform(flights_test)
+```
+
+SMS spam pipeline:
+```python
+from pyspark.ml.feature import Tokenizer, StopWordsRemover, HashingTF, IDF
+
+# Break text into tokens at non-word characters
+tokenizer = Tokenizer(inputCol='text', outputCol='words')
+
+# Remove stop words
+remover = StopWordsRemover(inputCol=tokenizer.getOutputCol(), outputCol='terms')
+
+# Apply the hashing trick and transform to TF-IDF
+hasher = HashingTF(inputCol=remover.getOutputCol(), outputCol="hash")
+idf = IDF(inputCol=hasher.getOutputCol(), outputCol="features")
+
+# Create a logistic regression object and add everything to a pipeline
+logistic = LogisticRegression()
+pipeline = Pipeline(stages=[tokenizer, remover, hasher, idf, logistic])
+```
+
+
