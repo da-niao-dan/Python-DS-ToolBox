@@ -48,6 +48,7 @@ There are many great sources to learn Data Science, and here are some advice to 
     * Hierarchical clustering
 
 6. [Basic Supervised Learning](SupervisedLearningBasic.md)
+    * [Feature Engineering](FeatureEngineering.md)
     * Ensemble Learning
         * Prototyping
         * Hyperparameter Tuning
