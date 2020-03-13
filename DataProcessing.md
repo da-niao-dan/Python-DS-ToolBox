@@ -21,6 +21,14 @@ Suppose f is a csv file with tab as delimiters, then we do this:
 df = pd.read_csv(f,delimiter ='\t')
 ```
 
+Note that sometimes data may be messy, explore options of read_csv.
+For example, some files may have extra spaces at the beginning of the fields, you need
+```python
+df = pd.read_csv(f,delimiter=' ',skipinitalspace=True)
+```
+You can also use 'usecols' to specify the columns you want.
+
+
 ##### json files
 
 json files are human readable, you can think of them as python dictionaries. We want to load them into pandas DataFrame.
