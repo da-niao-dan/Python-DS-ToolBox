@@ -46,6 +46,15 @@ and debug ~/.bashrc file using vim.
 vim ~/.bashrc
 ```
 
+### Use softlinks
+
+After creating the softlink,
+```bash
+ln -s targetpath frompath
+```
+the frompath could be treated like an alias for the target path.
+
+
 ## File Management
 
 ### Change Permission Status of a File
