@@ -1,6 +1,8 @@
 
 # Deep Learning
 
+Look up Coursera's Courses in Deeplearning!
+
 Keras short example of a DNN.
 
 ```python

@@ -68,6 +68,8 @@ There are many great sources to learn Data Science, and here are some advice to 
 
 10. [Network Analysis](Network-Analysis.md)
 11. [PySpark](PySpark.md)
+    * [Recommendation System using ALS](PySparkALS.md)
+
 12. [DeploymentTools](DeploymentTools.md)
 13. Others coming ...
     * Efficient Coding in Python
