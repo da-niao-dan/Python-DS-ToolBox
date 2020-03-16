@@ -257,15 +257,210 @@ recommendations.filter(col("userId") == 63).show()
 
 ### Implicit Ratings Model
 
+Now we consider the dataset if we don't have explicit ratings.
+Million Songs dataset, short hand:msd.
+Look at the dataset:
+```python
+# Look at the data
+msd.show()
 
+# Count the number of distinct userIds
+user_count = msd.select("userId").distinct().count()
+print("Number of users: ", user_count)
 
+# Count the number of distinct songIds
+song_count = msd.select("songId").distinct().count()
+print("Number of songs: ", song_count)
+```
 
+```bash
++------+------+---------+
+    |userId|songId|num_plays|
+    +------+------+---------+
+    |   148|   148|        0|
+    |   243|   496|        0|
+    |    31|   471|        0|
+    |   137|   463|        0|
+    |   251|   623|        0|
+    |    85|   392|        0|
+    |    65|   540|        0|
+    |   255|   243|        0|
+    |    53|   516|        0|
+    +------+------+---------+
+    only showing top 10 rows
+    
+    Number of users:  321
+    Number of songs:  729
+```
+
+```python
+# Min num implicit ratings for a song
+print("Minimum implicit ratings for a song: ")
+msd.filter(col("num_plays") > 0).groupBy("songId").count().select(min("count")).show()
+
+# Avg num implicit ratings per songs
+print("Average implicit ratings per song: ")
+msd.filter(col("num_plays") > 0).groupBy("songId").count().select(avg("count")).show()
+
+# Min num implicit ratings from a user
+print("Minimum implicit ratings from a user: ")
+msd.filter(col("num_plays") > 0).groupBy("userId").count().select(min("count")).show()
+
+# Avg num implicit ratings for users
+print("Average implicit ratings per user: ")
+msd.filter(col("num_plays") > 0).groupBy("userId").count().select(avg("count")).show()
+```
+
+```bash
+<script.py> output:
+    Minimum implicit ratings for a song: 
+    +----------+
+    |min(count)|
+    +----------+
+    |         3|
+    +----------+
+    
+    Average implicit ratings per song: 
+    +------------------+
+    |        avg(count)|
+    +------------------+
+    |35.251063829787235|
+    +------------------+
+    
+    Minimum implicit ratings from a user: 
+    +----------+
+    |min(count)|
+    +----------+
+    |        21|
+    +----------+
+    
+    Average implicit ratings per user: 
+    +-----------------+
+    |       avg(count)|
+    +-----------------+
+    |77.42056074766356|
+    +-----------------+
+```
+
+Fill missing values with 0:
+```python
+# View the data
+Z.show()
+
+# Extract distinct userIds and productIds
+users = Z.select("userId").distinct()
+products = Z.select("productId").distinct()
+
+# Cross join users and products
+cj = users.crossJoin(products)
+
+# Join cj and Z
+Z_expanded = cj.join(Z, ["userId", "productId"], "left").fillna(0)
+
+# View Z_expanded
+Z_expanded.show()
+```
+
+Tune Hyperparameters:
+
+```python
+ranks = [10, 20, 30, 40]
+maxIters = [10, 20, 30, 40]
+regParams = [.05, .1, .15]
+alphas = [20, 40, 60, 80]
+
+# For loop will automatically create and store ALS models
+for r in ranks:
+    for mi in maxIters:
+        for rp in regParams:
+            for a in alphas:
+                model_list.append(ALS(userCol= "userId", itemCol= "songId", ratingCol= "num_plays", rank = r, maxIter = mi, regParam = rp, alpha = a, coldStartStrategy="drop", nonnegative = True, implicitPrefs = True))
+
+# Print the model list, and the length of model_list
+print (model_list, "Length of model_list: ", len(model_list))
+
+# Validate
+len(model_list) == (len(ranks)*len(maxIters)*len(regParams)*len(alphas))
+
+```
+
+Cross Validations:
+```python
+# Split the data into training and test sets
+(training, test) = msd.randomSplit([0.8, 0.2])
+
+#Building 5 folds within the training set.
+train1, train2, train3, train4, train5 = training.randomSplit([0.2, 0.2, 0.2, 0.2, 0.2], seed = 1)
+fold1 = train2.union(train3).union(train4).union(train5)
+fold2 = train3.union(train4).union(train5).union(train1)
+fold3 = train4.union(train5).union(train1).union(train2)
+fold4 = train5.union(train1).union(train2).union(train3)
+fold5 = train1.union(train2).union(train3).union(train4)
+
+foldlist = [(fold1, train1), (fold2, train2), (fold3, train3), (fold4, train4), (fold5, train5)]
+
+# Empty list to fill with ROEMs from each model
+ROEMS = []
+
+# Loops through all models and all folds
+for model in model_list:
+    for ft_pair in foldlist:
+
+        # Fits model to fold within training data
+        fitted_model = model.fit(ft_pair[0])
+
+        # Generates predictions using fitted_model on respective CV test data
+        predictions = fitted_model.transform(ft_pair[1])
+
+        # Generates and prints a ROEM metric CV test data
+        r = ROEM(predictions)
+        print ("ROEM: ", r)
+
+    # Fits model to all of training data and generates preds for test data
+    v_fitted_model = model.fit(training)
+    v_predictions = v_fitted_model.transform(test)
+    v_ROEM = ROEM(v_predictions)
+
+    # Adds validation ROEM to ROEM list
+    ROEMS.append(v_ROEM)
+    print ("Validation ROEM: ", v_ROEM)
+
+# Import numpy
+import numpy
+
+# Find the index of the smallest ROEM
+i = numpy.argmin(ROEMS)
+print("Index of smallest ROEM:", i)
+
+# Find ith element of ROEMS
+print("Smallest ROEM: ", ROEMS[i])
+
+# Extract the best_model
+best_model = model_list[38]
+
+# Extract the Rank
+print ("Rank: ", best_model.getRank())
+
+# Extract the MaxIter value
+print ("MaxIter: ", best_model.getMaxIter())
+
+# Extract the RegParam value
+print ("RegParam: ", best_model.getRegParam())
+
+# Extract the Alpha value
+print ("Alpha: ", best_model.getAlpha())
+```
+
+Binary Ratings can use Implicit Ratings as well. In addition we could tweak the weights of users or movies (in ROEM)
 
 
 
 
 
 ### Other Resources
+
+[Collaborative Filtering for Implitcit Feedback Datasets by Hu, Koren, Volinsky](http://yifanhu.net/PUB/cf.pdf)
+
 
 [McKinsey&Company: "How Retailers Can Keep Up With Consumers"](https://www.mckinsey.com/industries/retail/our-insights/how-retailers-can-keep-up-with-consumers)
 
