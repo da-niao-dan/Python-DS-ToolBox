@@ -52,6 +52,7 @@ There are many great sources to learn Data Science, and here are some advice to 
 
 6. [Basic Supervised Learning](SupervisedLearningBasic.md)
     * [Feature Engineering](FeatureEngineering.md)
+    * [Classification via Logistic Regression](https://www.kaggle.com/danielzou/tensorflow-multiclassification)
     * Ensemble Learning
         * Prototyping
         * Hyperparameter Tuning
