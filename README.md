@@ -58,7 +58,7 @@ There are many great sources to learn Data Science, and here are some advice to 
         * Hyperparameter Tuning
         * Pipelining
 
-7. [Basic Deep Learning](DeepLearningBasic.md)
+7. [Basic Deep Learning](https://www.kaggle.com/danielzou/housing-prices-tf-dnn)
     * a very short DNN example
 
 8. [Git](git.md)
