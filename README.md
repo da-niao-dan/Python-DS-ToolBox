@@ -77,4 +77,5 @@ There are many great sources to learn Data Science, and here are some advice to 
 12. [DeploymentTools](DeploymentTools.md)
 13. Others coming ...
     * [Efficient Coding in Python](EfficientCoding.md)
+    * [Writing Functions in Python](FunctionsInPython.md)
     * Data Structure and Algorithms
