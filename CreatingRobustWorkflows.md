@@ -171,3 +171,44 @@ for dataset in dataset_generator:
 ```
 
 ## Documentation and Types
+Add type hints
+Type checker setup:
+* mypy type checker
+* pytest testing framework
+* pytest-mypy pytest plugin
+```python
+!pip install pytest mypy pytest-mypy
+```
+Prepare a file pytest.ini with the following:
+```
+[pytest]
+addopts = --doctest-modules --mypy --mypy-ignore-missing-imports
+```
+
+Then
+```python
+!pytest my_function.py
+```
+
+```python
+from typing import List
+
+def cook_foods(raw_foods: List[str]) -> List[str]:
+    return [food.replace('raw','cooked') for food in raw_foods]
+
+```
+
+```python
+from typing import Optional
+
+def str_or_none(optional_string: Optional[str] = None) -> Optional[str]:
+    return optional_string
+
+```
+
+
+
+
+
+
+
