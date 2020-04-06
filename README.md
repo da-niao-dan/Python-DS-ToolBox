@@ -80,3 +80,4 @@ There are many great sources to learn Data Science, and here are some advice to 
     * Writing Efficient Code with pandas
     * [Writing Functions in Python](FunctionsInPython.md)
     * [Object-Oriented Programming in Python](OOPPy.md)
+    * [Robust Workflows in Python](CreatingRobustWorkflows.md)
