@@ -75,7 +75,7 @@ There are many great sources to learn Data Science, and here are some advice to 
     * [Recommendation System using ALS](PySparkALS.md)
 
 12. [DeploymentTools](DeploymentTools.md)
-13. [coding Best Practices with Python](https://learn.datacamp.com/skill-tracks/coding-best-practices-in-python?version=1)
+13. coding Best Practices with Python. Course [link](https://learn.datacamp.com/skill-tracks/coding-best-practices-in-python?version=1).
     * [Efficient Coding in Python](EfficientCoding.md)
     * Writing Efficient Code with pandas
     * [Writing Functions in Python](FunctionsInPython.md)
