@@ -385,23 +385,31 @@ def test_assert():
 3. Run the failing test
 4. Work on the module until it passes
 5. Improve the code/functionality: go to step 2 
+
 1
+
 ```python
 def double(n: float) -> float:
     """Multiply a number by 2"""
 ```
+
 2
+
 ```python
 from double import double
 
 def test_double():
     assert double(2) == 4
 ```
+
 3
+
 ```python
 !pytest test_double.py
 ```
+
 4
+
 ```python
 def double(n: float) -> float:
     """Multiply a number by 2"""
@@ -417,37 +425,52 @@ def test_raises():
         double('2') 
 
 ```
+
 6(in fact 3) In bash,
+
 ```bash
+
 pytest test_raises.py
+
 ```
+
 7(in fact 4 again)
+
 ```python
+
 def double(n: float) -> float:
     """Multiply a number by 2"""
     return n * 2.
+
 ```
 
 
 Example test for nbuild:
+
 ```python
 @pytest.mark.parametrize("inputs", ["intro.md", "plot.py", "discussion.md"])
 def test_nbuild(inputs):
     assert nbuild([inputs]).cells[0].source == Path(inputs).read_text()
 
 show_test_output(test_nbuild)
+
 ```
+
 Example test for nbconv:
+
 ```python
+
 @pytest.mark.parametrize("not_exporters", ["htm", "ipython", "markup"])
 def test_nbconv(not_exporters):
     with pytest.raises(ValueError):
         nbconv(nb_name="mynotebook.ipynb", exporter=not_exporters)
 
 show_test_output(test_nbconv)
+
 ```
 
 #### Project Organization
+
 Each modules has a coupled test module, lives in test folder
 
 * Test files (e.g. test_mymodule.py)
@@ -458,47 +481,60 @@ Each modules has a coupled test module, lives in test folder
 * Project documentation generation, using [this](https://www.sphinx-doc.org/en/master/).
 
 ## Shell superpowers
+
 two command-line interfaces
+
 * argparse
 * docopt
 
 To use argparse:
+
 * instantiate the ArgumentParser class
 * Call the add_argument() method
 * Call the parse_args() method
 * Arguments are Namespace attributes
 
 ```python
+
 parser = argparse.ArgumentParser()
 parser.add_argument('ARGUMENT_NAME')
 namespace = parser.parse_args()
 namespace.ARGUMENT_NAME
+
 ```
 
 To use docopt:
+
 * Setup CLI in file docstring
 * Pass __doc__ to docopt()
 * Arguments are dictionary values
 
 
 ```python
+
 """Pass a single argument to FILENAME.
 Usage: FILENAME.py ARGUMENT_NAME"""
 
 argument_dict = docopt.docopt(__doc__)
+
 ```
 
 Examples:
 Using argparse
 get_namespace.py:
+
 ```python
+
 import argparse as ap
 def get_namespace() -> ap.Namespace:
     parser = ap.ArgumentParser()
     parser.add_argument('format')
     return parser.parse_args()
+
 ```
+
 now.py:
+
 ```python
 import datetime
 from get_namespace import get_namespace
@@ -507,7 +543,9 @@ if __name__ = '__main__':
     print(datetime.datetime.now()
     	  .strftime(namespace.format))
 ```
+
 shell:
+
 ```bash
 python now.py %H:%M
 ```
@@ -515,6 +553,7 @@ python now.py %H:%M
 Using Docopt and docstrings:
 
 get_arg_dict.py:
+
 ```python
 """Get the current date or time.
 Usage: now.py FORMAT"""
@@ -525,6 +564,7 @@ def get_arg_dict() -> Dict[str, str]:
 ```
 
 now.py:
+
 ```python
 import datetime as dt
 from get_arg_dict import get_arg_dict
@@ -536,8 +576,11 @@ if __name__ == '__main__':
 ```
 
 Shell:
+
 ```bash
+
 python now.py %B/%d
+
 ```
 
 ### GNU Make
@@ -545,7 +588,9 @@ automate execution of shell commands and scripts
 and python scripts and modules.
 
 Write recipes in Makefile:
+
 ```bash
+
 TARGET:
     RECIPE
 
@@ -553,10 +598,13 @@ TARGET:
     RECIPE
 
 TARGET: DEPENDENCIES
+
 ```
 
 Example of a Maefile:
+
 ```bash
+
 time:
     python now.py %H:%M
 
@@ -566,11 +614,13 @@ date:
 all: date time
 
 ```
+
 ### Building a CLI!
 
 Build a argparse CLI for nbuild function
 
 ```python
+
 def argparse_cli(func: Callable) -> None:
     # Instantiate the parser object
     parser = argparse.ArgumentParser()
@@ -585,7 +635,9 @@ if __name__ == "__main__":
 ```
 
 docopt:
+
 ```python
+
 # Add the section title in the docstring below
 """Usage: docopt_cli.py [IN_FILES...]"""
 
@@ -596,6 +648,7 @@ def docopt_cli(func: Callable) -> None:
 
 if __name__ == "__main__":
     docopt_cli(nbuild)
+
 ```
 
 ### GitPython API
@@ -603,18 +656,26 @@ if __name__ == "__main__":
 initialze a git directory
 
 init.py:
+
 ```python
+
 import git
 print(git.Repo.init())
+
 ```
 
+
 ```bash
+
 python init.py
+
 ```
 
 Add untracked files and commit:
 commit.py:
+
 ```python
+
 import git
 
 repo = git.Repo()
@@ -624,16 +685,22 @@ if add_list:
     repo.index.add(add_list)
     new = f"New files: {','.join(add_list)}."
     print(repo.index.commit(new).message)
+
 ```
 
 bash:
+
 ```bash
+
 python commit.py
+
 ```
 
 Commit modified files:
 mcommit.py:
+
 ```python
+
 import git
 repo = git.Repo()
 diff = repo.index.diff(None).iter_change_type('M')
@@ -642,6 +709,7 @@ if edit_list:
     repo.index.add(edit_list)
     modified = f"Modified files: {', '.join(edit_list)}."
     print(repo.index.commit(modified).message)
+
 ```
 
 
@@ -650,15 +718,20 @@ if edit_list:
 Automate version control by adding a Makefile:
 
 ```bash
+
 .git/:
     python init.py
     python commit.py
     python mcommit.py
+
 ```
 
 all need to do later is to type in bash shell:
+
 ```bash
+
 make
+
 ```
 
 ## Project
