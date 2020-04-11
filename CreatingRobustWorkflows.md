@@ -91,6 +91,7 @@ Modules:
 * are imported
 * provide tools
 * def functions
+
 Scripts:
 * are run
 * perform actions
@@ -733,7 +734,303 @@ all need to do later is to type in bash shell:
 make
 
 ```
+### Virtual Environments
+
+venv is the python default environment manager, so is the most stable one.
+
+#### Create environment in bash:
+
+```bash
+python -m venv /path/to/new/virtual/environment
+
+## Option1: Activate environment before pip install
+source /path/to/new/virtual/environment/bin/activate
+pip install --requirement requirements.txt
+
+## Option2L Use path to virtual environment Python to pip install
+/path/to/new/virtual/environment/bin/python -m pip install -r requirements.txt
+```
+
+#### Make venv Example: 
+
+1. Create a virtual environment in .venv
+2. Install the dependencies in the virtual environment
+3. Update the "Last Modified" time for the target(.vev/bin/activate)
+4. test the project using the virtual env
+
+```bash
+
+.venv:
+    python -m venv .venv
+
+.venv/bin/activate: .venv requirements.txt
+    .venv/bin/python -m pip install -r requirements.txt
+    touch .venv/bin/activate
+
+test: .venv/bin/activate
+    .venv/bin/python -m pytest src tests
+
+```
+
+
+#### Create virtual environment in python:
+
+```python
+import venv
+import subprocess
+
+venv.create('.venv')
+cp = subprocess.run(
+    ['.venv/bin/python', '-m', 'pip', 'list'], stdout=-1
+)
+
+print(cp.stdout.decode())
+```
+
+More examples:
+
+```python
+# Create an virtual environment
+venv.create(".venv")
+
+# Run pip list and obtain a CompletedProcess instance
+cp = subprocess.run([".venv/bin/python", "-m", "pip", "list"], stdout=-1)
+
+for line in cp.stdout.decode().split("\n"):
+    if "pandas" in line:
+        print(line)
+
+```
+
+```python
+
+print(run(
+    # Install project dependencies
+    [".venv/bin/python", "-m", "pip", "install", "-r", "requirements.txt"],
+    stdout=-1
+).stdout.decode())
+
+print(run(
+    # Show information on the aardvark package
+    [".venv/bin/python", "-m", "pip", "install", "aardvark"], stdout=-1
+).stdout.decode())
+
+```
+
+
+### Persistence and Packaging
+
+#### Persistence in a pipeline
+
+Save files throughout a data analysis pipeline
+
+raw data -> wrangle -> final data -> plot & model -> plots and trained models
+
+Each file should be:
+
+* A target in the project's Makefile
+* The responsibility of a script (plot1.py -> plot1.png)
+
+#### Saving data
+
+Standardard pickle package is always a choice. Check it out.
+
+With pandas:
+```python
+# Make simple dataframe
+df = pd.DataFrame({
+    'Evens': range(0,5,2),
+    'Odds': range(1,6,2)
+
+})
+
+# Pickle dataframe
+df.to_pickle('numbers.pkl')
+
+# Unpickle dataframe
+pd.read_pickle('numbers.pkl')
+```
+
+With joblib package
+
+```python
+
+import joblib
+from sklearn import datasets, model_selection, neighbors
+
+diabetes = datasets.load_diabetes()
+
+x_train, x_test, y_train, y_test = model_selection.train_test_split(
+    diabetes.data, diabetes.target, test_size = 0.33, random_state=42
+)
+
+knn = neighbors.KNeighborsRegressor().fit(x_train, y_train)
+
+# Pickle the k-nearest neighbots model with joblib
+joblib.dump(knn, 'knn.pkl')
+
+knn = joblib.load('knn.pkl')
+
+```
+
+#### Package
+
+* Everything in one place:
+   
+   * code
+   * documentation
+   * data files
+* Easy to share:
+    * pip install mypkg (download from PyPI)
+    * pip install git+REPO_URL (install from git repository)
+    * pip install . (install local package)
+
+To Create a package we need a setup.py file:
+```python
+
+setuptools.setup(
+    name = "PACKAGE_NAME",
+    version="MAJOR.MINOR.PATCH",
+    description="A minimal example of packaging pickled data and models.",
+    packages=setuptools.find_packages("src"),
+    package_dir={"": "src"},
+    # Include files in the data and models directories
+    package_data={"":["data/*","models/*"]},
+)
+
+```
+
+To install the local package we add the following line to requrements.txt file and install:
+```bash
+--editable .
+```
+
+##### Upload a package
+
+* create a PyPI account
+* write a make file
+
+release
+```bash
+
+clean:
+    rm -rf dist/
+dist: clean
+    python setup.py sdist bdist_wheel
+release: dist
+    twine upload dist/*
+
+```
+
+* In bash command: `make release` 
+
+A typical folder should look like this:
+??? setup.py
+??? src
+    ??? PACKAGE_NAME
+        ??? __init__.py
+	??? data
+	?   ??? data.pkl
+	??? MODULE.py
+
+
+Access package data
+
+```python
+
+import pkgutil
+from pickle import loads
+
+loads(pkgutil.get_data(
+    'PACKAGE_NAME',
+    'data/numbers.pkl'
+))
+
+```
+
+Access package model
+
+```python
+
+import pkg_resources
+from joblib import load
+
+load(pkg_resources.resource_filename(
+    'PACKAGE_NAME',
+    'models/knn.pkl'
+))
+
+```
+
 
 ## Project
+
 ### Project Templates
 
+Use templates to avoid repetitive tasks (of building a project).
+COOKIECUTER project template package.
+
+Usage:
+
+```python
+
+from cookiecutter import main
+
+main.cookiecutter(TEMPLATE_REPO)
+
+```
+
+This will prompt a conversion to initializa a project.
+
+Alternatively, we could suppress the prompt:
+
+```python
+
+from cookiecutter import main
+
+main.cookiecutter(
+    'https://github.com/marskar/cookiecutter', ## Alternatively, we can write 'gh:marskar/cookiecutter'
+    no_input=True, ## Use defaults
+    extra_context={'KEY': 'VALUE'} ## Overide defaults
+    
+)
+
+## Load local json files as dict
+
+from json import load
+from pathllib import path
+
+load(Path(JSON_PATH).open()).values()
+
+## Load remote json
+
+from requests import get
+
+get(JSON_URL).json().values()
+
+
+# Write a json file
+json_path.write_text(json.dumps({
+    "project": "Creating Robust Python Workflows",
+  	# Convert the project name into snake_case
+    "package": "{{ cookiecutter.project.lower().replace(' ', '_') }}",
+    # Fill in the default license value
+    "license": ["MIT", "BSD", "GPL3"]
+}))
+
+pprint(json.loads(json_path.read_text()))
+
+# Obtain keys from the local template's cookiecutter.json
+keys = [*json.load(json_path.open())]
+vals = "Your name here", "My Amazing Python Project"
+
+# Create a cookiecutter project without prompting for input
+main.cookiecutter(template_root.as_posix(), no_input=True,
+                  extra_context=dict(zip(keys, vals)))
+
+for path in pathlib.Path.cwd().glob("**"):
+    print(path)
+
+```
+
+Sphinx and Read the Docs are friends to establish your project documentation
