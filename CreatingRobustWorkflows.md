@@ -1034,3 +1034,146 @@ for path in pathlib.Path.cwd().glob("**"):
 ```
 
 Sphinx and Read the Docs are friends to establish your project documentation
+
+### Execute a project
+
+Run zipped project
+```python
+import zipapp
+
+zipapp.create_archive(
+    # Zip up a project called "myproject"
+    "myproject",
+    interpreter="/usr/bin/env python",
+    # Generate a __main__.py file
+    main="mypackage.mymodule:function_to_run")
+
+print(subprocess.run([".venv/bin/python", "myproject.pyz"],
+                     stdout=-1).stdout.decode())
+```
+
+Argparse main
+__main__.py
+```python
+
+def main():
+    parser = argparse.ArgumentParser(description="Scikit datasets only!")
+    # Set the default for the dataset argument
+    parser.add_argument("dataset", nargs="?", default="diabetes")
+    parser.add_argument("model", nargs="?", default="linear_model.Ridge")
+    args = parser.parse_args()
+    # Create a dictionary of the shell arguments
+    kwargs = dict(dataset=args.dataset, model=args.model)
+    return (classify(**kwargs) if args.dataset in ("digits", "iris", "wine")
+            else regress(**kwargs) if args.dataset in ("boston", "diabetes")
+            else print(f"{args.dataset} is not a supported dataset!"))
+
+if __name__ == "__main__":
+    main()
+
+```
+
+### Jupyter Notebooks
+
+```python
+import papermill as pm
+# Read in the notebook to find the default parameter names
+pprint(nbformat.read("sklearn.ipynb", as_version=4).cells[0].source)
+keys = ["dataset_name", "model_type", "model_name", "hyperparameters"]
+vals = ["diabetes", "ensemble", "RandomForestRegressor",
+        dict(max_depth=3, n_estimators=100, random_state=0)]
+parameter_dictionary = dict(zip(keys, vals))
+
+# Execute the notebook with custom parameters
+pprint(pm.execute_notebook(
+    "sklearn.ipynb", "rf_diabetes.ipynb", 
+    kernel_name="python3", parameters=parameter_dictionary
+	))
+
+
+import scrapbook as sb
+
+# Read in the notebook and assign the notebook object to nb
+nb = sb.read_notebook("rf_diabetes.ipynb")
+
+# Create a dataframe of scraps (recorded values)
+scrap_df = nb.scrap_dataframe
+print(scrap_df)
+
+# params
+params =nb.parameter_dataframe
+
+```
+
+## Parallel Computing
+
+Multiprocessing
+
+```python
+
+import time
+from multiprocessing import Pool
+from itertools import repeat
+
+def split_tasks(n_workers, n_tasks, task_duration):
+    start = time.time()
+    Pool(n_workers).map(task,repeat(task_duration, n_tasks))
+    end = time.time()
+    print("Workers:", n_workers, "Tasks:", n_tasks, "Seconds:", round(end - start))
+
+```
+
+
+Parallelelize scikit-learn
+
+```python
+from dask.distributed import Client
+from sklean.externals import joblib
+
+Client(n_workers=1,
+       threads_per_worder = 4,
+       processes=False
+      )
+
+with joblib.parallel_backend('dask'):
+    MODEL.fit(x_train,y_train)
+```
+
+
+Pandas VS Dask
+
+pandas
+```python
+import pandas as pd
+df = pd.read_csv('FILENAME.csv')
+(df.groupby('col name').mean())
+
+```
+
+Persist dask dataframe
+
+```python
+
+import dask.dataframe as dd
+
+df = dd.read_csv('FILENAME*.csv')
+
+df = df.persist() # Store data in disk
+
+(df.groupby('Group').mean().compute())
+```
+
+
+Speedup gridsearch
+
+```python
+# Set up a Dask client with 4 threads and 1 worker
+Client(processes=False, threads_per_worker=4, n_workers=1)
+
+# Run grid search using joblib and a Dask backend
+with joblib.parallel_backend("dask"):
+    engrid.fit(x_train, y_train)
+
+plot_enet(*enet_path(x_test, y_test, eps=5e-5, fit_intercept=False,
+                    l1_ratio=engrid.best_params_["l1_ratio"])[:2])
+```
