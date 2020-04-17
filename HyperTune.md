@@ -179,7 +179,7 @@ print(best)
 
 TPOT
 
-```pythpn
+```python
 
 # Assign the values outlined to the inputs
 number_generations = 3
