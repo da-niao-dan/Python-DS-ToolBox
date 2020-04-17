@@ -22,12 +22,11 @@ There are many great sources to learn Data Science, and here are some advice to 
 3. Practice as you go. Google or Bing any term or question you don't understand. Stackoverflow and supporting documents for specific packages and functions are your best friend. During this process, do not lose sight of the big picture of data science.
 4. Become a better data scientiest by doing more projects! (Don't try to memorize these tools, just do data science!)
 
-
 ## Materials in this notebook
 
-0. [Road Map in Business](roadmap.md)
-1. [Environment Configuration](EnvironmentConfiguration.md)
-2. [Data Processing](DataProcessing.md)
+1. [Road Map in Business](roadmap.md)
+2. [Environment Configuration](EnvironmentConfiguration.md)
+3. [Data Processing](DataProcessing.md)
     * Getting Data
         * By Loading Files
         * From APIs
@@ -38,38 +37,34 @@ There are many great sources to learn Data Science, and here are some advice to 
         * Transform DataFrames
     * Dimension Reduction
 
-3. [Exploring Data](ExploringData.md)
+4. [Exploring Data](ExploringData.md)
     * Simple Data Visualization
     * Simple Statistical Tools
 
-4. [Communicating with Data](Communicating-with-Data.md)
+5. [Communicating with Data](Communicating-with-Data.md)
     * Visualizing High-Dimension Data
     * Interative Data Visualization
 
-5. [Basic Unsupervised Learning](UnsupervisedLearningBasic.md)
+6. [Basic Unsupervised Learning](UnsupervisedLearningBasic.md)
     * K-means
     * Hierarchical clustering
 
-6. [Basic Supervised Learning](SupervisedLearningBasic.md)
+7. [Basic Supervised Learning](SupervisedLearningBasic.md)
     * [Feature Engineering](FeatureEngineering.md)
     * [Classification via Logistic Regression](https://www.kaggle.com/danielzou/tensorflow-multiclassification)
     * Ensemble Learning
-        * Prototyping
-        * Hyperparameter Tuning
+        * [XGBoost](XGBoost.md)
         * Pipelining
-
-7. [Basic Deep Learning](https://www.kaggle.com/danielzou/housing-prices-tf-dnn)
-    * a very short DNN example
+    * [Hyperparameter Tuning](HyperTune.md)
+    * [Basic Deep Learning](https://www.kaggle.com/danielzou/housing-prices-tf-dnn)
 
 8. [Git](git.md)
     * very common git operations
-
 9. [Linux and Bash shells](LinuxBash.md)
     * System Configurations
     * File Management
     * Exchanging Data
     * Task Management
-
 10. [Network Analysis](Network-Analysis.md)
 11. [PySpark](PySpark.md)
     * [Recommendation System using ALS](PySparkALS.md)
@@ -81,3 +76,4 @@ There are many great sources to learn Data Science, and here are some advice to 
     * [Writing Functions in Python](FunctionsInPython.md)
     * [Object-Oriented Programming in Python](OOPPy.md)
     * [Robust Workflows in Python](CreatingRobustWorkflows.md)
+14. [Kaggle How](KaggleHow.md)
