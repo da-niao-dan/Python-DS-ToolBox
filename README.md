@@ -35,7 +35,7 @@ There are many great sources to learn Data Science, and here are some advice to 
         * Take a First Look
         * Data Cleaning
         * Transform DataFrames
-    * Dimension Reduction
+    * [Feature Engineering](FeatureEngineering.md)
 
 4. [Exploring Data](ExploringData.md)
     * Simple Data Visualization
@@ -50,7 +50,6 @@ There are many great sources to learn Data Science, and here are some advice to 
     * Hierarchical clustering
 
 7. [Basic Supervised Learning](SupervisedLearningBasic.md)
-    * [Feature Engineering](FeatureEngineering.md)
     * [Classification via Logistic Regression](https://www.kaggle.com/danielzou/tensorflow-multiclassification)
     * Ensemble Learning
         * [XGBoost](XGBoost.md)
