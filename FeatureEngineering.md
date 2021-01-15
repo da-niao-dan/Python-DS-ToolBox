@@ -24,7 +24,7 @@ Remember standardize your data before you do this.
 We can do this using sklearn very fast.
 
 ### auto-encoding using deep neural networks
-We need sufficient data to do this well, more complicated than PCA>
+We need sufficient data to do this well, more complicated than PCA.
 
 
 ### Feature selection
